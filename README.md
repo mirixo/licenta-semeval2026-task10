@@ -1,0 +1,1 @@
+# licenta-semeval2026-task10
