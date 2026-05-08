@@ -1,17 +1,42 @@
-# Date și modele (sunt pe Drive, nu în repo)
-data/
+# === Modele și checkpoints (prea mari pentru git) ===
 checkpoints/
-*.pt
-*.bin
 *.safetensors
+*.bin
+*.pt
+*.pth
 
-# Python
+# === Date oficiale brute (sub licență SemEval, NU redistribuit) ===
+# IMPORTANT: NU folosim 'data/' simplu — vrem să commit-ăm val_splits!
+data/rehydrated/train_rehydrated.jsonl
+data/rehydrated/dev_rehydrated.jsonl
+data/rehydrated/dev_rehydrated_clean.jsonl
+data/rehydrated/train_redacted.jsonl
+
+# === Submission-uri intermediare (regenerabile) ===
+**/val_submission*.jsonl
+
+# === Python ===
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
 .ipynb_checkpoints/
+.pytest_cache/
 
-# Loguri
+# === Loguri ===
 *.log
 
-# OS
+# === IDE ===
+.vscode/
+.idea/
+
+# === OS ===
 .DS_Store
+Thumbs.db
+
+# === Variabile de mediu / secrete ===
+.env
+*.key
+
+# === Foldere temporare de inferență (regenerabile) ===
+starter_pack/tmp_inference_*/
