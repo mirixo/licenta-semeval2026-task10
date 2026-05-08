@@ -1,0 +1,2596 @@
+{
+  "summary": {
+    "Action": {
+      "TP": 18,
+      "FP": 81,
+      "FN_partial": 24,
+      "FN_missed": 875,
+      "gold_total": 917,
+      "pred_total": 99,
+      "precision": 0.1818,
+      "recall": 0.0196,
+      "f1": 0.0354,
+      "avg_gold_span_len_chars": 27.8,
+      "avg_pred_span_len_chars": 7.2
+    },
+    "Actor": {
+      "TP": 206,
+      "FP": 365,
+      "FN_partial": 49,
+      "FN_missed": 967,
+      "gold_total": 1222,
+      "pred_total": 571,
+      "precision": 0.3608,
+      "recall": 0.1686,
+      "f1": 0.2298,
+      "avg_gold_span_len_chars": 12.4,
+      "avg_pred_span_len_chars": 6.8
+    },
+    "Effect": {
+      "TP": 2,
+      "FP": 38,
+      "FN_partial": 10,
+      "FN_missed": 692,
+      "gold_total": 704,
+      "pred_total": 40,
+      "precision": 0.05,
+      "recall": 0.0028,
+      "f1": 0.0054,
+      "avg_gold_span_len_chars": 37.8,
+      "avg_pred_span_len_chars": 6.7
+    },
+    "Evidence": {
+      "TP": 2,
+      "FP": 19,
+      "FN_partial": 7,
+      "FN_missed": 676,
+      "gold_total": 685,
+      "pred_total": 21,
+      "precision": 0.0952,
+      "recall": 0.0029,
+      "f1": 0.0057,
+      "avg_gold_span_len_chars": 36.7,
+      "avg_pred_span_len_chars": 7.3
+    },
+    "Victim": {
+      "TP": 16,
+      "FP": 49,
+      "FN_partial": 4,
+      "FN_missed": 576,
+      "gold_total": 596,
+      "pred_total": 65,
+      "precision": 0.2462,
+      "recall": 0.0268,
+      "f1": 0.0484,
+      "avg_gold_span_len_chars": 12.9,
+      "avg_pred_span_len_chars": 6.9
+    }
+  },
+  "examples": {
+    "Action": {
+      "TP": [
+        {
+          "sample_id": "t1_hi2stcl",
+          "text_excerpt": "This article is actually claiming the right wing disinformation machine is making up lies to discredit Fauci.  \n Smells more like damage control for lying to congress. I’m glad the headline is negative.",
+          "gold_span": {
+            "startIndex": 64,
+            "endIndex": 89,
+            "type": "Action",
+            "text": "machine is making up lies"
+          },
+          "pred_span": {
+            "startIndex": 75,
+            "endIndex": 89,
+            "type": "Action",
+            "text": "making up lies"
+          },
+          "iou": 0.6
+        },
+        {
+          "sample_id": "t1_guvsq8i",
+          "text_excerpt": "Andrej Babiš, the prime minister of the Czech Republic, publicly announced that there is considerable evidence that members of the Russian intelligence service were involved in the explosion of the Vrbětice munition depot near Czech Zlín in 2014. Hamáček, the Czech minister of the interior specified...",
+          "gold_span": {
+            "startIndex": 181,
+            "endIndex": 190,
+            "type": "Action",
+            "text": "explosion"
+          },
+          "pred_span": {
+            "startIndex": 181,
+            "endIndex": 190,
+            "type": "Action",
+            "text": "explosion"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_jp2j77o",
+          "text_excerpt": "from my country... this is an older report, but it's still going on. Now the outgoing \"environment\" minister signed an order to kill hundreds of bears who are the natives of many of these x-forests.",
+          "gold_span": {
+            "startIndex": 109,
+            "endIndex": 124,
+            "type": "Action",
+            "text": "signed an order"
+          },
+          "pred_span": {
+            "startIndex": 116,
+            "endIndex": 124,
+            "type": "Action",
+            "text": "an order"
+          },
+          "iou": 0.667
+        },
+        {
+          "sample_id": "t1_fp8nde0",
+          "text_excerpt": "Same as title. Huge Los Angeles Protest Today - A Vocal Call to End the Tyrannical Shutdown. I have to say that I was shocked to see some of the hate comments upvoted 300-400 in the other End The Shutdown Protest in this sub, so I won't be shocked if newly fired, butthurt, NPCs come on here and tell...",
+          "gold_span": {
+            "startIndex": 83,
+            "endIndex": 92,
+            "type": "Action",
+            "text": "Shutdown."
+          },
+          "pred_span": {
+            "startIndex": 83,
+            "endIndex": 87,
+            "type": "Action",
+            "text": "Shut"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_eludjjw",
+          "text_excerpt": "For many months now we’ve been told that Maria Butina was more or less a master Russian spy who infiltrated the NRA and had undue influence over GOP politicians. And yet we now see her getting off with a slap on the wrist, with lesser punishment then people who are caught selling weed.  \n This is a ...",
+          "gold_span": {
+            "startIndex": 96,
+            "endIndex": 107,
+            "type": "Action",
+            "text": "infiltrated"
+          },
+          "pred_span": {
+            "startIndex": 106,
+            "endIndex": 107,
+            "type": "Action",
+            "text": "d"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_emcerl8",
+          "text_excerpt": "Now that they've completely censored the MSM, we see the globalists censoring yet another major internet platform. As usual, they've justified this censorship by claiming that banned posters are racists.",
+          "gold_span": {
+            "startIndex": 28,
+            "endIndex": 36,
+            "type": "Action",
+            "text": "censored"
+          },
+          "pred_span": {
+            "startIndex": 30,
+            "endIndex": 36,
+            "type": "Action",
+            "text": "nsored"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_hlfwh82",
+          "text_excerpt": "This article is about the thirtieth anniversary of the Santa Cruz Massacre in Indonesian-occupied East Timor in which Indonesian troops fired on a peaceful funeral procession and killed hundreds of innocent people.",
+          "gold_span": {
+            "startIndex": 136,
+            "endIndex": 141,
+            "type": "Action",
+            "text": "fired"
+          },
+          "pred_span": {
+            "startIndex": 136,
+            "endIndex": 141,
+            "type": "Action",
+            "text": "fired"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_ey5lll2",
+          "text_excerpt": "Who is Timothy Holmseth? I saw this local news report. It sounds like he uncovered corrupt judges and police who are involved in stealing babies and imprisoning innocent people and was fraudulently arrested for it.",
+          "gold_span": {
+            "startIndex": 129,
+            "endIndex": 144,
+            "type": "Action",
+            "text": "stealing babies"
+          },
+          "pred_span": {
+            "startIndex": 129,
+            "endIndex": 137,
+            "type": "Action",
+            "text": "stealing"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_howxfds",
+          "text_excerpt": "An Android app with more than 500,000 downloads from Google Play has been caught hosting malware that surreptitiously sends users’ contacts to an attacker-controlled server and signs up users to pricey subscriptions, a security firm reported. \n The app, named Color Message, was still available on Go...",
+          "gold_span": {
+            "startIndex": 81,
+            "endIndex": 96,
+            "type": "Action",
+            "text": "hosting malware"
+          },
+          "pred_span": {
+            "startIndex": 89,
+            "endIndex": 92,
+            "type": "Action",
+            "text": "mal"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_j4zhiju",
+          "text_excerpt": "Did it ever feel like your tv was trying to tell you something? \n Your leaders have designed a technological trap, you live in a world where the super villains have control and they broadcast their terror attacks on you to you in advance.",
+          "gold_span": {
+            "startIndex": 84,
+            "endIndex": 92,
+            "type": "Action",
+            "text": "designed"
+          },
+          "pred_span": {
+            "startIndex": 84,
+            "endIndex": 92,
+            "type": "Action",
+            "text": "designed"
+          },
+          "iou": 1.0
+        }
+      ],
+      "FP": [
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 83,
+            "endIndex": 86,
+            "type": "Action",
+            "text": "use"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_dzqz120",
+          "text_excerpt": "This video discusses the way companies are trying to change Bitcoin to Blockchain - a meaningless, bullshit term that corporations are using for marketing purposes. \n This ties directly to the fake DASH/ Mondsanto article heavily guided to the top of our sub in an obvious Astroturf fashion.  \n I cal...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 43,
+            "endIndex": 59,
+            "type": "Action",
+            "text": "trying to change"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gruwcg4",
+          "text_excerpt": "Mar 21, 2021 - A northern Michigan county that encountered controversy regarding the 2020 general election has decided to hand-count every ballot in an upcoming primary instead of using machines from Dominion Voting Systems...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 127,
+            "endIndex": 132,
+            "type": "Action",
+            "text": "count"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_k4fu291",
+          "text_excerpt": "Palestine supporters have been attempting cyber-attacks on Indian government websites, including those of the Delhi government and AIIMS, accusing India of siding with Israel, sources said Monday, setting off a retaliatory blitz. The Indian cyber establishment has successfully fended off attacks in ...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 31,
+            "endIndex": 55,
+            "type": "Action",
+            "text": "attempting cyber-attacks"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_hi2stcl",
+          "text_excerpt": "This article is actually claiming the right wing disinformation machine is making up lies to discredit Fauci.  \n Smells more like damage control for lying to congress. I’m glad the headline is negative.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 93,
+            "endIndex": 97,
+            "type": "Action",
+            "text": "disc"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_ectb45o",
+          "text_excerpt": "This is seriously messed up. The rich are literally taking children's blood and using it to reverse the aging process. Experiments have shown positive effects in mice. \n \"So it does appear to turn back the clock on aging in humans,\" says Dr.  Karmazin . \"People feel and look younger after just one t...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 52,
+            "endIndex": 58,
+            "type": "Action",
+            "text": "taking"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_ectb45o",
+          "text_excerpt": "This is seriously messed up. The rich are literally taking children's blood and using it to reverse the aging process. Experiments have shown positive effects in mice. \n \"So it does appear to turn back the clock on aging in humans,\" says Dr.  Karmazin . \"People feel and look younger after just one t...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 80,
+            "endIndex": 85,
+            "type": "Action",
+            "text": "using"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_k6ozaw9",
+          "text_excerpt": "Hindustan Aeronautics Limited and Safran Aircraft Engines signed a MoU to develop industrial cooperation to build commercial engines. These engines known as Leading Edge Aviation Propulsion (LEAP) power both the Airbus A320 Neo and the Boeing 737 Max.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 108,
+            "endIndex": 113,
+            "type": "Action",
+            "text": "build"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_k7maqpi",
+          "text_excerpt": "Article highlights: \n 1: \n \n A candidate 'short list' to replace Dr. Kirkpatrick at the All-Domain Anomaly Resolution Office (AARO) has been interviewed, an ex-official told DailyMail.com \n \n 2: \n \n The Pentagon's UFO chief will resign by year's end — amid a wave of complaints accusing him of making...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 294,
+            "endIndex": 300,
+            "type": "Action",
+            "text": "making"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gt38agz",
+          "text_excerpt": "Apr 1, 2021 - A federal judge ordered pop star Lil Nas X’s “Satan Shoes” to cease being sold, siding with Nike after it filed a lawsuit against the design company MSCHF Product Studio, which Nike says customized the Air Max 97 shoes without permission...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 76,
+            "endIndex": 81,
+            "type": "Action",
+            "text": "cease"
+          },
+          "iou": 0.0
+        }
+      ],
+      "FN_partial": [
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 83,
+            "endIndex": 98,
+            "type": "Action",
+            "text": "use a pay phone"
+          },
+          "pred_span": {
+            "startIndex": 83,
+            "endIndex": 86,
+            "type": "Action",
+            "text": "use"
+          },
+          "iou": 0.25
+        },
+        {
+          "sample_id": "t1_dzqz120",
+          "text_excerpt": "This video discusses the way companies are trying to change Bitcoin to Blockchain - a meaningless, bullshit term that corporations are using for marketing purposes. \n This ties directly to the fake DASH/ Mondsanto article heavily guided to the top of our sub in an obvious Astroturf fashion.  \n I cal...",
+          "gold_span": {
+            "startIndex": 53,
+            "endIndex": 81,
+            "type": "Action",
+            "text": "change Bitcoin to Blockchain"
+          },
+          "pred_span": {
+            "startIndex": 43,
+            "endIndex": 59,
+            "type": "Action",
+            "text": "trying to change"
+          },
+          "iou": 0.167
+        },
+        {
+          "sample_id": "t1_k4fu291",
+          "text_excerpt": "Palestine supporters have been attempting cyber-attacks on Indian government websites, including those of the Delhi government and AIIMS, accusing India of siding with Israel, sources said Monday, setting off a retaliatory blitz. The Indian cyber establishment has successfully fended off attacks in ...",
+          "gold_span": {
+            "startIndex": 31,
+            "endIndex": 86,
+            "type": "Action",
+            "text": "attempting cyber-attacks on Indian government websites,"
+          },
+          "pred_span": {
+            "startIndex": 31,
+            "endIndex": 55,
+            "type": "Action",
+            "text": "attempting cyber-attacks"
+          },
+          "iou": 0.333
+        },
+        {
+          "sample_id": "t1_ectb45o",
+          "text_excerpt": "This is seriously messed up. The rich are literally taking children's blood and using it to reverse the aging process. Experiments have shown positive effects in mice. \n \"So it does appear to turn back the clock on aging in humans,\" says Dr.  Karmazin . \"People feel and look younger after just one t...",
+          "gold_span": {
+            "startIndex": 52,
+            "endIndex": 75,
+            "type": "Action",
+            "text": "taking children's blood"
+          },
+          "pred_span": {
+            "startIndex": 52,
+            "endIndex": 58,
+            "type": "Action",
+            "text": "taking"
+          },
+          "iou": 0.333
+        },
+        {
+          "sample_id": "t1_k7maqpi",
+          "text_excerpt": "Article highlights: \n 1: \n \n A candidate 'short list' to replace Dr. Kirkpatrick at the All-Domain Anomaly Resolution Office (AARO) has been interviewed, an ex-official told DailyMail.com \n \n 2: \n \n The Pentagon's UFO chief will resign by year's end — amid a wave of complaints accusing him of making...",
+          "gold_span": {
+            "startIndex": 294,
+            "endIndex": 317,
+            "type": "Action",
+            "text": "making false statements"
+          },
+          "pred_span": {
+            "startIndex": 294,
+            "endIndex": 300,
+            "type": "Action",
+            "text": "making"
+          },
+          "iou": 0.333
+        },
+        {
+          "sample_id": "t1_e8u3h53",
+          "text_excerpt": "Something seems fishy af about Trump mobilizing so many active duty troops to the border,  days before the mid term elections.   Reportedly,  also being deployed to confront these 3,000 central American migrants on foot,  are M1A1 Abraham battle tanks, and armored personnel carriers.   \n I came acro...",
+          "gold_span": {
+            "startIndex": 37,
+            "endIndex": 89,
+            "type": "Action",
+            "text": "mobilizing so many active duty troops to the border,"
+          },
+          "pred_span": {
+            "startIndex": 37,
+            "endIndex": 43,
+            "type": "Action",
+            "text": "mobili"
+          },
+          "iou": 0.111
+        },
+        {
+          "sample_id": "t1_exeiw7i",
+          "text_excerpt": "Link to an article where 3 men have been arrested in separate raids for planning mass shootings. Ergo they are seen to be guilty of a crime despite not having hurt anybody.",
+          "gold_span": {
+            "startIndex": 72,
+            "endIndex": 96,
+            "type": "Action",
+            "text": "planning mass shootings."
+          },
+          "pred_span": {
+            "startIndex": 72,
+            "endIndex": 80,
+            "type": "Action",
+            "text": "planning"
+          },
+          "iou": 0.333
+        },
+        {
+          "sample_id": "t1_fdlt3z6",
+          "text_excerpt": "US Senator introduces a bill in the US Senate that prohibits US intelligence services from sharing intel with it's allies if they use Huawei for their 5G network. The US has been pushing for ban on Huawei as part of trade war against China. Intelligence sharing agreements such FVEY (Canada, Australi...",
+          "gold_span": {
+            "startIndex": 179,
+            "endIndex": 204,
+            "type": "Action",
+            "text": "pushing for ban on Huawei"
+          },
+          "pred_span": {
+            "startIndex": 191,
+            "endIndex": 194,
+            "type": "Action",
+            "text": "ban"
+          },
+          "iou": 0.2
+        },
+        {
+          "sample_id": "t1_fd6xjg2",
+          "text_excerpt": "But you won't hear this is main stream, zio-fascist media, that has been literally begging Trump to full-blown invade / nuke Iran. \n Trump done fucked-up, and he knows it. \n Now he's practically begging Iran to stay cool.",
+          "gold_span": {
+            "startIndex": 83,
+            "endIndex": 130,
+            "type": "Action",
+            "text": "begging Trump to full-blown invade / nuke Iran."
+          },
+          "pred_span": {
+            "startIndex": 83,
+            "endIndex": 90,
+            "type": "Action",
+            "text": "begging"
+          },
+          "iou": 0.125
+        },
+        {
+          "sample_id": "t1_h02yqjb",
+          "text_excerpt": "The secret base 85 miles northwest of Las Vegas Nevada, commonly known as Area 51, has been surrounded with mystery and rumors since it was first opened in 1955 by the CIA, to test the U-2 spy plane. \n We now know that every new aircraft developed since then has been test flown there before the publ...",
+          "gold_span": {
+            "startIndex": 176,
+            "endIndex": 199,
+            "type": "Action",
+            "text": "test the U-2 spy plane."
+          },
+          "pred_span": {
+            "startIndex": 176,
+            "endIndex": 180,
+            "type": "Action",
+            "text": "test"
+          },
+          "iou": 0.2
+        }
+      ],
+      "FN_missed": [
+        {
+          "sample_id": "t1_f7ju17o",
+          "text_excerpt": "A great article on what's taking place in Bolivia, referencing some similar US backed coups in the region as well as recounting some of Bolivia's history and western policy towards the country.",
+          "gold_span": {
+            "startIndex": 86,
+            "endIndex": 91,
+            "type": "Action",
+            "text": "coups"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": {
+            "startIndex": 12,
+            "endIndex": 17,
+            "type": "Action",
+            "text": "upset"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_joq538t",
+          "text_excerpt": "Redditors are, just like most social media users, highly motivated to oppose things they see as evil. This motivation, coupled with moderators permitting ontological hatred of an entire group of people, is what gives Redditors an excuse to go on the offensive without pesky restrictions such as “empa...",
+          "gold_span": {
+            "startIndex": 143,
+            "endIndex": 172,
+            "type": "Action",
+            "text": "permitting ontological hatred"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_cguw8w8",
+          "text_excerpt": "I saw a friend post this elsewhere as I was finishing my coffee and found it fascinating. The potency of PET's arguments are pretty remarkable. There has been a significant amount of mythologizing surrounding constitutional reform talks, and the events surrounding repatriation of the constitution.  ...",
+          "gold_span": {
+            "startIndex": 105,
+            "endIndex": 110,
+            "type": "Action",
+            "text": "PET's"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_cguw8w8",
+          "text_excerpt": "I saw a friend post this elsewhere as I was finishing my coffee and found it fascinating. The potency of PET's arguments are pretty remarkable. There has been a significant amount of mythologizing surrounding constitutional reform talks, and the events surrounding repatriation of the constitution.  ...",
+          "gold_span": {
+            "startIndex": 354,
+            "endIndex": 357,
+            "type": "Action",
+            "text": "PET"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fegajpj",
+          "text_excerpt": "Just looking for some discussion on ideas related to Pineal Gland/Third Eye and the 'Lizard People' conspiracy. They work together so well and I'd like to further my understanding of it all. Please chime in with any thoughts!",
+          "gold_span": {
+            "startIndex": 117,
+            "endIndex": 130,
+            "type": "Action",
+            "text": "work together"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_hsoj4b0",
+          "text_excerpt": "These surveys paint an extremely scary picture on the authoritarianism creep of the left when it comes to Americans who question or refuse to get the vaccine--for whatever reason (e.g., natural immunity). Everything from fines, incarceration, to the placement of unvaccinated into \"designated facilit...",
+          "gold_span": {
+            "startIndex": 205,
+            "endIndex": 275,
+            "type": "Action",
+            "text": "Everything from fines, incarceration, to the placement of unvaccinated"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fnua8i5",
+          "text_excerpt": "The Air Force has maintained the continuous bomber presence at the Guam  base since 2004, with B-52s and B-1s rotating to provide a strategic  deterrent and exercise across the Pacific area of operations.  \n The transition to a “dynamic force employment” model allows the bombers  to operate from a “...",
+          "gold_span": {
+            "startIndex": 18,
+            "endIndex": 28,
+            "type": "Action",
+            "text": "maintained"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fnua8i5",
+          "text_excerpt": "The Air Force has maintained the continuous bomber presence at the Guam  base since 2004, with B-52s and B-1s rotating to provide a strategic  deterrent and exercise across the Pacific area of operations.  \n The transition to a “dynamic force employment” model allows the bombers  to operate from a “...",
+          "gold_span": {
+            "startIndex": 284,
+            "endIndex": 291,
+            "type": "Action",
+            "text": "operate"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_eoryiia",
+          "text_excerpt": "This article is being pushed on my \"Front page of Google\" It attempts to tie Gabbard to conspiracy theories and discredit both. Also noticed all the recommended articles at the bottom are similarly titled and quite misrepresenting of Gabbard.",
+          "gold_span": {
+            "startIndex": 215,
+            "endIndex": 230,
+            "type": "Action",
+            "text": "misrepresenting"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        }
+      ]
+    },
+    "Actor": {
+      "TP": [
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": {
+            "startIndex": 0,
+            "endIndex": 7,
+            "type": "Actor",
+            "text": "Germany"
+          },
+          "pred_span": {
+            "startIndex": 0,
+            "endIndex": 7,
+            "type": "Actor",
+            "text": "Germany"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_joq538t",
+          "text_excerpt": "Redditors are, just like most social media users, highly motivated to oppose things they see as evil. This motivation, coupled with moderators permitting ontological hatred of an entire group of people, is what gives Redditors an excuse to go on the offensive without pesky restrictions such as “empa...",
+          "gold_span": {
+            "startIndex": 0,
+            "endIndex": 9,
+            "type": "Actor",
+            "text": "Redditors"
+          },
+          "pred_span": {
+            "startIndex": 0,
+            "endIndex": 6,
+            "type": "Actor",
+            "text": "Reddit"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_fnua8i5",
+          "text_excerpt": "The Air Force has maintained the continuous bomber presence at the Guam  base since 2004, with B-52s and B-1s rotating to provide a strategic  deterrent and exercise across the Pacific area of operations.  \n The transition to a “dynamic force employment” model allows the bombers  to operate from a “...",
+          "gold_span": {
+            "startIndex": 4,
+            "endIndex": 13,
+            "type": "Actor",
+            "text": "Air Force"
+          },
+          "pred_span": {
+            "startIndex": 8,
+            "endIndex": 13,
+            "type": "Actor",
+            "text": "Force"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_fkc2fl3",
+          "text_excerpt": "California – Senior editors and contributors at Truthdig, including Executive Editor Kasia Anderson, Managing Editor, Jacob Sugarman, Foreign Editor Natasha Hakimi Zapata and Book Editor Eunice Wong, along with columnists Chris Hedges, Lee Camp and Paul Street and the cartoonist Dwayne Booth, aka Mr...",
+          "gold_span": {
+            "startIndex": 85,
+            "endIndex": 100,
+            "type": "Actor",
+            "text": "Kasia Anderson,"
+          },
+          "pred_span": {
+            "startIndex": 85,
+            "endIndex": 87,
+            "type": "Actor",
+            "text": "Ka"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_k4fu291",
+          "text_excerpt": "Palestine supporters have been attempting cyber-attacks on Indian government websites, including those of the Delhi government and AIIMS, accusing India of siding with Israel, sources said Monday, setting off a retaliatory blitz. The Indian cyber establishment has successfully fended off attacks in ...",
+          "gold_span": {
+            "startIndex": 0,
+            "endIndex": 20,
+            "type": "Actor",
+            "text": "Palestine supporters"
+          },
+          "pred_span": {
+            "startIndex": 0,
+            "endIndex": 20,
+            "type": "Actor",
+            "text": "Palestine supporters"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_haw5wob",
+          "text_excerpt": "NYC Mandates Vaccine in order to participate in \"society\". \n My Body, My Rules, My choice.  Segregation is wrong. \n Take back NYC and USA from forced experimental injections on the people!  \n End GMO Humans!",
+          "gold_span": {
+            "startIndex": 0,
+            "endIndex": 3,
+            "type": "Actor",
+            "text": "NYC"
+          },
+          "pred_span": {
+            "startIndex": 0,
+            "endIndex": 3,
+            "type": "Actor",
+            "text": "NYC"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_griwea8",
+          "text_excerpt": "These stories are difficult to read,” Clinton had said in a March 1 statement of accusations against Cuomo, “and the allegations brought forth raise serious questions that the women who have come forward and all New Yorkers deserve answers to.” Translation: HRC only supports #MeToo when it’s to her ...",
+          "gold_span": {
+            "startIndex": 38,
+            "endIndex": 45,
+            "type": "Actor",
+            "text": "Clinton"
+          },
+          "pred_span": {
+            "startIndex": 38,
+            "endIndex": 45,
+            "type": "Actor",
+            "text": "Clinton"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_e1v9o2e",
+          "text_excerpt": "The details surrounding the suicide of Anthony Bourdain remain mysterious. How could a man who produced and starred in major national television shows (spending much of his time traveling for work) and authored New York Times Best Sellers have an estate valued at only $1.2M? That's not a large numbe...",
+          "gold_span": {
+            "startIndex": 39,
+            "endIndex": 55,
+            "type": "Actor",
+            "text": "Anthony Bourdain"
+          },
+          "pred_span": {
+            "startIndex": 47,
+            "endIndex": 54,
+            "type": "Actor",
+            "text": "Bourdai"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_jolxlod",
+          "text_excerpt": "This is shocking. Listen to the video.  \n This IDF soldier (who rather stupidly disclosed his Battalion and Brigade and Unit), discloses that they are homophobic, racist and particularly religious.  \n He also disclosed that an  80  year old man was arrested and messed around with and locked up overn...",
+          "gold_span": {
+            "startIndex": 47,
+            "endIndex": 58,
+            "type": "Actor",
+            "text": "IDF soldier"
+          },
+          "pred_span": {
+            "startIndex": 47,
+            "endIndex": 50,
+            "type": "Actor",
+            "text": "IDF"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_ectb45o",
+          "text_excerpt": "This is seriously messed up. The rich are literally taking children's blood and using it to reverse the aging process. Experiments have shown positive effects in mice. \n \"So it does appear to turn back the clock on aging in humans,\" says Dr.  Karmazin . \"People feel and look younger after just one t...",
+          "gold_span": {
+            "startIndex": 33,
+            "endIndex": 37,
+            "type": "Actor",
+            "text": "rich"
+          },
+          "pred_span": {
+            "startIndex": 33,
+            "endIndex": 37,
+            "type": "Actor",
+            "text": "rich"
+          },
+          "iou": 1.0
+        }
+      ],
+      "FP": [
+        {
+          "sample_id": "t1_dzqz120",
+          "text_excerpt": "This video discusses the way companies are trying to change Bitcoin to Blockchain - a meaningless, bullshit term that corporations are using for marketing purposes. \n This ties directly to the fake DASH/ Mondsanto article heavily guided to the top of our sub in an obvious Astroturf fashion.  \n I cal...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 29,
+            "endIndex": 38,
+            "type": "Actor",
+            "text": "companies"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_dzqz120",
+          "text_excerpt": "This video discusses the way companies are trying to change Bitcoin to Blockchain - a meaningless, bullshit term that corporations are using for marketing purposes. \n This ties directly to the fake DASH/ Mondsanto article heavily guided to the top of our sub in an obvious Astroturf fashion.  \n I cal...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 118,
+            "endIndex": 130,
+            "type": "Actor",
+            "text": "corporations"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_frfd8jq",
+          "text_excerpt": "Despite the fact, that Ba'athism is a leftist movement, there were great difficulties between Ba'athist-Socialists and Communists. Caleb Maupin explains in this video, how the Ba'ath movement emerged and why it opposed the communist party.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 23,
+            "endIndex": 26,
+            "type": "Actor",
+            "text": "Ba'"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_frfd8jq",
+          "text_excerpt": "Despite the fact, that Ba'athism is a leftist movement, there were great difficulties between Ba'athist-Socialists and Communists. Caleb Maupin explains in this video, how the Ba'ath movement emerged and why it opposed the communist party.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 137,
+            "endIndex": 139,
+            "type": "Actor",
+            "text": "Ma"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fkc2fl3",
+          "text_excerpt": "California – Senior editors and contributors at Truthdig, including Executive Editor Kasia Anderson, Managing Editor, Jacob Sugarman, Foreign Editor Natasha Hakimi Zapata and Book Editor Eunice Wong, along with columnists Chris Hedges, Lee Camp and Paul Street and the cartoonist Dwayne Booth, aka Mr...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 56,
+            "endIndex": 57,
+            "type": "Actor",
+            "text": ","
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fj010mi",
+          "text_excerpt": "It says \"Take 2\" because in the first live stream attempt Val Finnell was muted... Suspicious? Give \"Guns & Gadgets\" a subscribe if you haven't already.  \n SHALL NOT BE INFRINGED  \n SHALL NOT BE QUESTIONED",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 62,
+            "endIndex": 66,
+            "type": "Actor",
+            "text": "Finn"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_k4fu291",
+          "text_excerpt": "Palestine supporters have been attempting cyber-attacks on Indian government websites, including those of the Delhi government and AIIMS, accusing India of siding with Israel, sources said Monday, setting off a retaliatory blitz. The Indian cyber establishment has successfully fended off attacks in ...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 116,
+            "endIndex": 126,
+            "type": "Actor",
+            "text": "government"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_k4fu291",
+          "text_excerpt": "Palestine supporters have been attempting cyber-attacks on Indian government websites, including those of the Delhi government and AIIMS, accusing India of siding with Israel, sources said Monday, setting off a retaliatory blitz. The Indian cyber establishment has successfully fended off attacks in ...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 131,
+            "endIndex": 136,
+            "type": "Actor",
+            "text": "AIIMS"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_hi2stcl",
+          "text_excerpt": "This article is actually claiming the right wing disinformation machine is making up lies to discredit Fauci.  \n Smells more like damage control for lying to congress. I’m glad the headline is negative.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 103,
+            "endIndex": 105,
+            "type": "Actor",
+            "text": "Fa"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_foatffs",
+          "text_excerpt": "This video demonstrates that the reptilian humanoid hybrid species is amongst us. Also known as Draconians.  \n \n Ever wonder why we have satanic people performing rituals, drinking adrenochrome, and eating babies?  Maybe because they aren't fully human and have no care for the human race? \n \n The ch...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 101,
+            "endIndex": 105,
+            "type": "Actor",
+            "text": "nian"
+          },
+          "iou": 0.0
+        }
+      ],
+      "FN_partial": [
+        {
+          "sample_id": "t1_jp2j77o",
+          "text_excerpt": "from my country... this is an older report, but it's still going on. Now the outgoing \"environment\" minister signed an order to kill hundreds of bears who are the natives of many of these x-forests.",
+          "gold_span": {
+            "startIndex": 77,
+            "endIndex": 108,
+            "type": "Actor",
+            "text": "outgoing \"environment\" minister"
+          },
+          "pred_span": {
+            "startIndex": 100,
+            "endIndex": 108,
+            "type": "Actor",
+            "text": "minister"
+          },
+          "iou": 0.333
+        },
+        {
+          "sample_id": "t1_g3wequq",
+          "text_excerpt": "Bill Gates and Nathan Myhrvold are huge names when it comes to Microsoft. What were they doing with a sex trafficker? \n Myhrvold, former Chief Technology Officer at Microsoft, and Epstein were pictured at the  Edge's  \"Billionaires' Dinner\" in 2000. He's also in his  Black Book frequently . \n And wh...",
+          "gold_span": {
+            "startIndex": 0,
+            "endIndex": 30,
+            "type": "Actor",
+            "text": "Bill Gates and Nathan Myhrvold"
+          },
+          "pred_span": {
+            "startIndex": 0,
+            "endIndex": 10,
+            "type": "Actor",
+            "text": "Bill Gates"
+          },
+          "iou": 0.4
+        },
+        {
+          "sample_id": "t1_g3wequq",
+          "text_excerpt": "Bill Gates and Nathan Myhrvold are huge names when it comes to Microsoft. What were they doing with a sex trafficker? \n Myhrvold, former Chief Technology Officer at Microsoft, and Epstein were pictured at the  Edge's  \"Billionaires' Dinner\" in 2000. He's also in his  Black Book frequently . \n And wh...",
+          "gold_span": {
+            "startIndex": 120,
+            "endIndex": 187,
+            "type": "Actor",
+            "text": "Myhrvold, former Chief Technology Officer at Microsoft, and Epstein"
+          },
+          "pred_span": {
+            "startIndex": 165,
+            "endIndex": 174,
+            "type": "Actor",
+            "text": "Microsoft"
+          },
+          "iou": 0.111
+        },
+        {
+          "sample_id": "t1_hemfcmg",
+          "text_excerpt": "Here in Australia, our Deputy NSW Premier, during one of the harshest lockdowns in the world, tells us we will not achieve further freedoms until we have been vaccinated.",
+          "gold_span": {
+            "startIndex": 19,
+            "endIndex": 42,
+            "type": "Actor",
+            "text": "our Deputy NSW Premier,"
+          },
+          "pred_span": {
+            "startIndex": 34,
+            "endIndex": 41,
+            "type": "Actor",
+            "text": "Premier"
+          },
+          "iou": 0.25
+        },
+        {
+          "sample_id": "t1_jm05rks",
+          "text_excerpt": "The last time Debt Ceiling \"talks\" between Democrats and Republicans collapsed (in 2011), gold prices increased, soaring +20%. It was widely anticipated that the same would happen had talks collapsed this time round. That did not happen, unfortunately... and now we have a deal that's going to ruin u...",
+          "gold_span": {
+            "startIndex": 43,
+            "endIndex": 68,
+            "type": "Actor",
+            "text": "Democrats and Republicans"
+          },
+          "pred_span": {
+            "startIndex": 43,
+            "endIndex": 52,
+            "type": "Actor",
+            "text": "Democrats"
+          },
+          "iou": 0.333
+        },
+        {
+          "sample_id": "t1_glbzvgn",
+          "text_excerpt": "February 2nd - shorts have to report to FINRA on level of short interest in GME. \n February 9th - information is made public. \n We HOLD UNTIL THEY BREAK. THE TRUTH WILL BE REVEALED BY FINRA!",
+          "gold_span": {
+            "startIndex": 15,
+            "endIndex": 45,
+            "type": "Actor",
+            "text": "shorts have to report to FINRA"
+          },
+          "pred_span": {
+            "startIndex": 40,
+            "endIndex": 45,
+            "type": "Actor",
+            "text": "FINRA"
+          },
+          "iou": 0.167
+        },
+        {
+          "sample_id": "t1_f3y9jqa",
+          "text_excerpt": "This is a pretty good summary of the debates between Jordan Peterson and Sam Harris. The author covers their general arguments, their similarities/differences, and finishes with a rather charitable conclusion for both sides of the argument. \n Thank you for sharing u/Briskprogress",
+          "gold_span": {
+            "startIndex": 53,
+            "endIndex": 95,
+            "type": "Actor",
+            "text": "Jordan Peterson and Sam Harris. The author"
+          },
+          "pred_span": {
+            "startIndex": 77,
+            "endIndex": 83,
+            "type": "Actor",
+            "text": "Harris"
+          },
+          "iou": 0.143
+        },
+        {
+          "sample_id": "t1_dv0zbe7",
+          "text_excerpt": "Russia has better nuclear capabilities yet criminal politicians Trump and Netanyahu risk bringing a global nuclear catastrophe. Maybe we need to get real about exposing corruption BEFORE WE ALL DIE.",
+          "gold_span": {
+            "startIndex": 64,
+            "endIndex": 83,
+            "type": "Actor",
+            "text": "Trump and Netanyahu"
+          },
+          "pred_span": {
+            "startIndex": 64,
+            "endIndex": 69,
+            "type": "Actor",
+            "text": "Trump"
+          },
+          "iou": 0.333
+        },
+        {
+          "sample_id": "t1_e244e7c",
+          "text_excerpt": "the admins of reddit are 100% complicit in allowing hate speech to propagate on this site.  You'd almost thing they'd approve of it... \n And since I've been asked before, a lot of conspiracy revolve around hateful claims of various minorities, so I would suggest that yes, this belongs here.",
+          "gold_span": {
+            "startIndex": 4,
+            "endIndex": 20,
+            "type": "Actor",
+            "text": "admins of reddit"
+          },
+          "pred_span": {
+            "startIndex": 14,
+            "endIndex": 20,
+            "type": "Actor",
+            "text": "reddit"
+          },
+          "iou": 0.333
+        },
+        {
+          "sample_id": "t1_gvdlzaw",
+          "text_excerpt": "Apr 19, 2021 - In a major acknowledgement of China’s concerns, New Zealand Foreign Minister Nanaia Mahuta said her country is “uncomfortable” with the Five Eyes intelligence-sharing alliance’s efforts to expand its scope into dictating policy. The World War II-era partnership between the intelligenc...",
+          "gold_span": {
+            "startIndex": 63,
+            "endIndex": 105,
+            "type": "Actor",
+            "text": "New Zealand Foreign Minister Nanaia Mahuta"
+          },
+          "pred_span": {
+            "startIndex": 75,
+            "endIndex": 82,
+            "type": "Actor",
+            "text": "Foreign"
+          },
+          "iou": 0.167
+        }
+      ],
+      "FN_missed": [
+        {
+          "sample_id": "t1_f7ju17o",
+          "text_excerpt": "A great article on what's taking place in Bolivia, referencing some similar US backed coups in the region as well as recounting some of Bolivia's history and western policy towards the country.",
+          "gold_span": {
+            "startIndex": 76,
+            "endIndex": 78,
+            "type": "Actor",
+            "text": "US"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": {
+            "startIndex": 304,
+            "endIndex": 311,
+            "type": "Actor",
+            "text": "Germany"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_joq538t",
+          "text_excerpt": "Redditors are, just like most social media users, highly motivated to oppose things they see as evil. This motivation, coupled with moderators permitting ontological hatred of an entire group of people, is what gives Redditors an excuse to go on the offensive without pesky restrictions such as “empa...",
+          "gold_span": {
+            "startIndex": 132,
+            "endIndex": 142,
+            "type": "Actor",
+            "text": "moderators"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_joq538t",
+          "text_excerpt": "Redditors are, just like most social media users, highly motivated to oppose things they see as evil. This motivation, coupled with moderators permitting ontological hatred of an entire group of people, is what gives Redditors an excuse to go on the offensive without pesky restrictions such as “empa...",
+          "gold_span": {
+            "startIndex": 217,
+            "endIndex": 226,
+            "type": "Actor",
+            "text": "Redditors"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fegajpj",
+          "text_excerpt": "Just looking for some discussion on ideas related to Pineal Gland/Third Eye and the 'Lizard People' conspiracy. They work together so well and I'd like to further my understanding of it all. Please chime in with any thoughts!",
+          "gold_span": {
+            "startIndex": 112,
+            "endIndex": 116,
+            "type": "Actor",
+            "text": "They"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_hsoj4b0",
+          "text_excerpt": "These surveys paint an extremely scary picture on the authoritarianism creep of the left when it comes to Americans who question or refuse to get the vaccine--for whatever reason (e.g., natural immunity). Everything from fines, incarceration, to the placement of unvaccinated into \"designated facilit...",
+          "gold_span": {
+            "startIndex": 80,
+            "endIndex": 88,
+            "type": "Actor",
+            "text": "the left"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 30,
+            "endIndex": 41,
+            "type": "Actor",
+            "text": "Susan Walsh"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 141,
+            "endIndex": 144,
+            "type": "Actor",
+            "text": "she"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 175,
+            "endIndex": 178,
+            "type": "Actor",
+            "text": "She"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 239,
+            "endIndex": 250,
+            "type": "Actor",
+            "text": "Susan Walsh"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        }
+      ]
+    },
+    "Effect": {
+      "TP": [
+        {
+          "sample_id": "t1_f306zke",
+          "text_excerpt": "As per this short video, one of the major problems with UBI that it gives more power to a central institution, and when there is a power struggle within the ruling class, that power can easily be used to enslave the society.",
+          "gold_span": {
+            "startIndex": 204,
+            "endIndex": 224,
+            "type": "Effect",
+            "text": "enslave the society."
+          },
+          "pred_span": {
+            "startIndex": 204,
+            "endIndex": 215,
+            "type": "Effect",
+            "text": "enslave the"
+          },
+          "iou": 0.667
+        },
+        {
+          "sample_id": "t1_gyh6dv3",
+          "text_excerpt": "The prestigious Salk Institute, founded by vaccine pioneer Jonas Salk, has authored and published a bombshell scientific article revealing that the SARS-CoV-2 spike protein is what’s actually causing vascular damage in covid patients and covid vaccine recipients, promoting the strokes, heart attacks...",
+          "gold_span": {
+            "startIndex": 371,
+            "endIndex": 377,
+            "type": "Effect",
+            "text": "killed"
+          },
+          "pred_span": {
+            "startIndex": 371,
+            "endIndex": 377,
+            "type": "Effect",
+            "text": "killed"
+          },
+          "iou": 1.0
+        }
+      ],
+      "FP": [
+        {
+          "sample_id": "t1_gd8csxv",
+          "text_excerpt": "How's that everybody? If you or your child is vaccinated and it results in injury or death, Reagan made sure that the vaccine manufacturers aren't liable for those type of damages. 34 years ago! \n Putting this here because of the COVID-19 vaccine coming up.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 85,
+            "endIndex": 90,
+            "type": "Effect",
+            "text": "death"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gxvnl66",
+          "text_excerpt": "a  good discussion on this over at r/news today.   With all of this inflation and shortages you can imagine the ripple effect it will have through all aspects of our economy.  What happens if your house burns down? Will you be able to get a contractor and materials to rebuild it?  Will your home own...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 417,
+            "endIndex": 420,
+            "type": "Effect",
+            "text": "imp"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gxvnl66",
+          "text_excerpt": "a  good discussion on this over at r/news today.   With all of this inflation and shortages you can imagine the ripple effect it will have through all aspects of our economy.  What happens if your house burns down? Will you be able to get a contractor and materials to rebuild it?  Will your home own...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 422,
+            "endIndex": 424,
+            "type": "Effect",
+            "text": "de"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_jnavpc8",
+          "text_excerpt": "Cody Showdy discusses how fascists and the right-wing engage in unpatriotic activity like using tone policing, \"decorum\", and the concept of \"civility\" to shut down protests, enact regulatory capture, and disenfranchise the rights of people.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 205,
+            "endIndex": 207,
+            "type": "Effect",
+            "text": "di"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzq96bv",
+          "text_excerpt": "A publicly-available FDA “fact sheet” document reveals that 86% of children who participated in a Pfizer covid vaccine trial reported adverse reactions ranging from “mild” to “serious.” \n As part of the vaccine experiments, children aged 12 to 15 are being injected with mRNA sequences that take cont...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 407,
+            "endIndex": 414,
+            "type": "Effect",
+            "text": "disease"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_dv0zbe7",
+          "text_excerpt": "Russia has better nuclear capabilities yet criminal politicians Trump and Netanyahu risk bringing a global nuclear catastrophe. Maybe we need to get real about exposing corruption BEFORE WE ALL DIE.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 98,
+            "endIndex": 99,
+            "type": "Effect",
+            "text": "a"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_dyzrrkg",
+          "text_excerpt": "this is a fundamentalist religion conducting ritual sacrifice of their own people.  Don’t walk towards the border please.  People are going to die if you do this.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 140,
+            "endIndex": 146,
+            "type": "Effect",
+            "text": "to die"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gyzc1dq",
+          "text_excerpt": "In my opinion, the TRUE introduction of aliens/alien crafts/bluebeam/you know what I mean, then there is a possibility the event will be used to orchestrate a really fucked up slaughter. \n EDIT: This was downvoted immediately and will likely either be shadowbanned quickly, etc. This is information t...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 394,
+            "endIndex": 397,
+            "type": "Effect",
+            "text": "pop"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_e9r3b0x",
+          "text_excerpt": "One of the most common vaccine industry claims is that there is no science showing harm from vaccines or a link between autism and childhood vaccination except a small fraudulent study by Dr. Andrew Wakefield. In reality there is a lot of science showing that vaccines can cause neurological injury a...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 273,
+            "endIndex": 278,
+            "type": "Effect",
+            "text": "cause"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_e9r3b0x",
+          "text_excerpt": "One of the most common vaccine industry claims is that there is no science showing harm from vaccines or a link between autism and childhood vaccination except a small fraudulent study by Dr. Andrew Wakefield. In reality there is a lot of science showing that vaccines can cause neurological injury a...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 292,
+            "endIndex": 298,
+            "type": "Effect",
+            "text": "injury"
+          },
+          "iou": 0.0
+        }
+      ],
+      "FN_partial": [
+        {
+          "sample_id": "t1_gd8csxv",
+          "text_excerpt": "How's that everybody? If you or your child is vaccinated and it results in injury or death, Reagan made sure that the vaccine manufacturers aren't liable for those type of damages. 34 years ago! \n Putting this here because of the COVID-19 vaccine coming up.",
+          "gold_span": {
+            "startIndex": 46,
+            "endIndex": 91,
+            "type": "Effect",
+            "text": "vaccinated and it results in injury or death,"
+          },
+          "pred_span": {
+            "startIndex": 85,
+            "endIndex": 90,
+            "type": "Effect",
+            "text": "death"
+          },
+          "iou": 0.125
+        },
+        {
+          "sample_id": "t1_gxvnl66",
+          "text_excerpt": "a  good discussion on this over at r/news today.   With all of this inflation and shortages you can imagine the ripple effect it will have through all aspects of our economy.  What happens if your house burns down? Will you be able to get a contractor and materials to rebuild it?  Will your home own...",
+          "gold_span": {
+            "startIndex": 372,
+            "endIndex": 442,
+            "type": "Effect",
+            "text": "The entire economy looks like it is ready to implode at this point  :("
+          },
+          "pred_span": {
+            "startIndex": 417,
+            "endIndex": 420,
+            "type": "Effect",
+            "text": "imp"
+          },
+          "iou": 0.071
+        },
+        {
+          "sample_id": "t1_hlfwh82",
+          "text_excerpt": "This article is about the thirtieth anniversary of the Santa Cruz Massacre in Indonesian-occupied East Timor in which Indonesian troops fired on a peaceful funeral procession and killed hundreds of innocent people.",
+          "gold_span": {
+            "startIndex": 179,
+            "endIndex": 214,
+            "type": "Effect",
+            "text": "killed hundreds of innocent people."
+          },
+          "pred_span": {
+            "startIndex": 179,
+            "endIndex": 194,
+            "type": "Effect",
+            "text": "killed hundreds"
+          },
+          "iou": 0.4
+        },
+        {
+          "sample_id": "t1_inbwxt1",
+          "text_excerpt": "An informative video about the Federal Reserve's plan to outlaw the U.S. dollar in order to introduce a social credit system concurrently with \"central bank digital currencies\" (CBDCs): a new, programmable form of money which will end private transactions and reduce individual freedoms.  Link includ...",
+          "gold_span": {
+            "startIndex": 193,
+            "endIndex": 324,
+            "type": "Effect",
+            "text": "programmable form of money which will end private transactions and reduce individual freedoms.  Link includes video and transcript."
+          },
+          "pred_span": {
+            "startIndex": 260,
+            "endIndex": 266,
+            "type": "Effect",
+            "text": "reduce"
+          },
+          "iou": 0.056
+        },
+        {
+          "sample_id": "t1_gyh6dv3",
+          "text_excerpt": "The prestigious Salk Institute, founded by vaccine pioneer Jonas Salk, has authored and published a bombshell scientific article revealing that the SARS-CoV-2 spike protein is what’s actually causing vascular damage in covid patients and covid vaccine recipients, promoting the strokes, heart attacks...",
+          "gold_span": {
+            "startIndex": 264,
+            "endIndex": 352,
+            "type": "Effect",
+            "text": "promoting the strokes, heart attacks, migraines, blood clots and other harmful reactions"
+          },
+          "pred_span": {
+            "startIndex": 305,
+            "endIndex": 310,
+            "type": "Effect",
+            "text": "raine"
+          },
+          "iou": 0.083
+        },
+        {
+          "sample_id": "t1_k6iyggz",
+          "text_excerpt": "Fahmi said Malaysians have a right to freedom of speech regarding the Palestinian cause, adding that right will not be taken away.     \n \n Insulting the Prophet on Facebook in Malaysia can  get you 10 years in prison , however...",
+          "gold_span": {
+            "startIndex": 190,
+            "endIndex": 216,
+            "type": "Effect",
+            "text": "get you 10 years in prison"
+          },
+          "pred_span": {
+            "startIndex": 210,
+            "endIndex": 216,
+            "type": "Effect",
+            "text": "prison"
+          },
+          "iou": 0.167
+        },
+        {
+          "sample_id": "t1_jj6v4yw",
+          "text_excerpt": "The most famous Nabatean site is Petra, in Jordan & I'd always associated them with ancient Palestine, however: \n \n The discovery represents evidence of the Nabataean presence in the area, revealing the richness and vastness of commercial, cultural, and religious exchanges in the Mediterranean basin...",
+          "gold_span": {
+            "startIndex": 189,
+            "endIndex": 322,
+            "type": "Effect",
+            "text": "revealing the richness and vastness of commercial, cultural, and religious exchanges in the Mediterranean basin in the ancient world."
+          },
+          "pred_span": {
+            "startIndex": 254,
+            "endIndex": 263,
+            "type": "Effect",
+            "text": "religious"
+          },
+          "iou": 0.053
+        },
+        {
+          "sample_id": "t1_gxfaf0s",
+          "text_excerpt": "Ever since the commencement of the new millennium, scientists and researchers are attempting to decipher the human genetic plan of life. \n Certain genes exist whose functions and origins are still unknown to mankind. \n There is a number of skeptics who believe that a few devious scientists might des...",
+          "gold_span": {
+            "startIndex": 529,
+            "endIndex": 559,
+            "type": "Effect",
+            "text": "revolution in Medical history."
+          },
+          "pred_span": {
+            "startIndex": 529,
+            "endIndex": 539,
+            "type": "Effect",
+            "text": "revolution"
+          },
+          "iou": 0.25
+        },
+        {
+          "sample_id": "t1_gtfbu6q",
+          "text_excerpt": "The shit is about to hit the fan.  Industry capture of government regulation via paid off, corrupt politicians is leading to a collapse of the infrastructure in the USA.",
+          "gold_span": {
+            "startIndex": 127,
+            "endIndex": 169,
+            "type": "Effect",
+            "text": "collapse of the infrastructure in the USA."
+          },
+          "pred_span": {
+            "startIndex": 125,
+            "endIndex": 138,
+            "type": "Effect",
+            "text": "a collapse of"
+          },
+          "iou": 0.25
+        },
+        {
+          "sample_id": "t1_if2xrbp",
+          "text_excerpt": "More than a decade after the events of the Arab Spring and the subsequent Arab Winter, which saw only one country form into a democracy, whilst the rest fell to disarray and/or dictatorships, Arabs across the Middle East have been asked how they felt about democracy and economy: \n Out of 23,000 Arab...",
+          "gold_span": {
+            "startIndex": 338,
+            "endIndex": 393,
+            "type": "Effect",
+            "text": "lost faith that democracy can lead to a better economy."
+          },
+          "pred_span": {
+            "startIndex": 378,
+            "endIndex": 384,
+            "type": "Effect",
+            "text": "better"
+          },
+          "iou": 0.1
+        }
+      ],
+      "FN_missed": [
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": {
+            "startIndex": 55,
+            "endIndex": 73,
+            "type": "Effect",
+            "text": "disproportionately"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_cguw8w8",
+          "text_excerpt": "I saw a friend post this elsewhere as I was finishing my coffee and found it fascinating. The potency of PET's arguments are pretty remarkable. There has been a significant amount of mythologizing surrounding constitutional reform talks, and the events surrounding repatriation of the constitution.  ...",
+          "gold_span": {
+            "startIndex": 111,
+            "endIndex": 120,
+            "type": "Effect",
+            "text": "arguments"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_cguw8w8",
+          "text_excerpt": "I saw a friend post this elsewhere as I was finishing my coffee and found it fascinating. The potency of PET's arguments are pretty remarkable. There has been a significant amount of mythologizing surrounding constitutional reform talks, and the events surrounding repatriation of the constitution.  ...",
+          "gold_span": {
+            "startIndex": 209,
+            "endIndex": 237,
+            "type": "Effect",
+            "text": "constitutional reform talks,"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_cguw8w8",
+          "text_excerpt": "I saw a friend post this elsewhere as I was finishing my coffee and found it fascinating. The potency of PET's arguments are pretty remarkable. There has been a significant amount of mythologizing surrounding constitutional reform talks, and the events surrounding repatriation of the constitution.  ...",
+          "gold_span": {
+            "startIndex": 246,
+            "endIndex": 298,
+            "type": "Effect",
+            "text": "events surrounding repatriation of the constitution."
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 42,
+            "endIndex": 46,
+            "type": "Effect",
+            "text": "left"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 222,
+            "endIndex": 235,
+            "type": "Effect",
+            "text": "disappearance"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fnua8i5",
+          "text_excerpt": "The Air Force has maintained the continuous bomber presence at the Guam  base since 2004, with B-52s and B-1s rotating to provide a strategic  deterrent and exercise across the Pacific area of operations.  \n The transition to a “dynamic force employment” model allows the bombers  to operate from a “...",
+          "gold_span": {
+            "startIndex": 228,
+            "endIndex": 254,
+            "type": "Effect",
+            "text": "“dynamic force employment”"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_eoryiia",
+          "text_excerpt": "This article is being pushed on my \"Front page of Google\" It attempts to tie Gabbard to conspiracy theories and discredit both. Also noticed all the recommended articles at the bottom are similarly titled and quite misrepresenting of Gabbard.",
+          "gold_span": {
+            "startIndex": 61,
+            "endIndex": 69,
+            "type": "Effect",
+            "text": "attempts"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_ewibxb5",
+          "text_excerpt": "Conspiracy theorists have repeatedly been dismissed in previous cases yet finally, the Epstein case had brought more people to the sceptical side. Although this case may be buried perhaps future conspiracies will be taken more seriously",
+          "gold_span": {
+            "startIndex": 188,
+            "endIndex": 236,
+            "type": "Effect",
+            "text": "future conspiracies will be taken more seriously"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_ih5cggk",
+          "text_excerpt": "An unvaccinated young man in Rockland County, NY has contracted paralytic polio that is consistent with the source from a live attenuated vaccine. It was contracted in the US as there was no international travel. It seems that they must have contracted the virus from someone who had received the liv...",
+          "gold_span": {
+            "startIndex": 53,
+            "endIndex": 79,
+            "type": "Effect",
+            "text": "contracted paralytic polio"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        }
+      ]
+    },
+    "Evidence": {
+      "TP": [
+        {
+          "sample_id": "t1_el49p3j",
+          "text_excerpt": "The International Criminal Court has announced it will not investigate possible war crimes and crimes against humanity committed by the United States and other actors in Afghanistan. The court suggested the U.S.'s lack of cooperation with the investigation was behind the decision. Earlier this month...",
+          "gold_span": {
+            "startIndex": 377,
+            "endIndex": 388,
+            "type": "Evidence",
+            "text": "2016 report"
+          },
+          "pred_span": {
+            "startIndex": 382,
+            "endIndex": 388,
+            "type": "Evidence",
+            "text": "report"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_inxupgd",
+          "text_excerpt": "A module that can pull water out of the air and produce hydrogen with it is a lot easier than a system that has to find a source of liquid water elsewhere. It means modules that can simply produce hydrogen with no external inputs. It could operate with humidity levels as low as 4%, which is lower th...",
+          "gold_span": {
+            "startIndex": 340,
+            "endIndex": 348,
+            "type": "Evidence",
+            "text": "article,"
+          },
+          "pred_span": {
+            "startIndex": 340,
+            "endIndex": 347,
+            "type": "Evidence",
+            "text": "article"
+          },
+          "iou": 1.0
+        }
+      ],
+      "FP": [
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 408,
+            "endIndex": 413,
+            "type": "Evidence",
+            "text": "to an"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 417,
+            "endIndex": 434,
+            "type": "Evidence",
+            "text": "document obtained"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_duozdp9",
+          "text_excerpt": "An estimated 77 million Americans have a debt that has been transferred to a private collection agency. Thousands have ended up in jail over debts as small as $28, with African-Americans and Hispanics the most affected. \n The findings come from a new report by the American Civil Liberties Union (ACL...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 483,
+            "endIndex": 489,
+            "type": "Evidence",
+            "text": "report"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_i3oxubo",
+          "text_excerpt": "Dallas Pedo ring in 1973 linked to one in Houston involved in the murders of 28 boys by the serial killer Dean Corll. The US State Department destroyed evidence listing names of powerful people as clients of this pedo network. Full citations of evidence given.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 245,
+            "endIndex": 253,
+            "type": "Evidence",
+            "text": "evidence"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_h1j25sb",
+          "text_excerpt": "Here we go, not again; because this fire season may be the equivalent of Australia's 2019-2020 bushfires in acrage, with the difference in much higher cost in human, wildlife, and structural losses. \n Excerpt: \n Only five months into the year, a total of 2,340 fires have burned 14,340 acres, an incr...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 380,
+            "endIndex": 388,
+            "type": "Evidence",
+            "text": "new data"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_guaxxa3",
+          "text_excerpt": "Apr 9, 2021 - An Israeli lawmaker has said that police beat him while he took part in a demonstration against a Jewish settlement in Israeli-annexed east Jerusalem. Ofer Cassif, a Jewish member of the mostly Arab Joint List party, was attending a protest against the expansion of a Jewish settlement ...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 482,
+            "endIndex": 489,
+            "type": "Evidence",
+            "text": "footage"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_k85gvsz",
+          "text_excerpt": "The two films you see in this clip are known as the 1950 \"Mariana UFO Film\" (Montana Film) filmed near Great Falls, MT and the 1952 \"Newhouse UFO Film\" (Utah Film) filmed near Tremonton, UT. \n These were first released in the 1956 documentary,  Unidentified Flying Objects: The True Story of Flying S...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 324,
+            "endIndex": 335,
+            "type": "Evidence",
+            "text": "documentary"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_ftbgw5p",
+          "text_excerpt": "Since so many gun buyers during the pandemic and riots are first time gun owners, these three gun control polices are pushed in PA: \n \n Universal Background checks \n Red flag laws \n Safe storage mandates \n \n He mentions a news article said this but he doesn't say who or provide a link. If anyone can...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 315,
+            "endIndex": 322,
+            "type": "Evidence",
+            "text": "article"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gsypms1",
+          "text_excerpt": "Much focus has turned to the role of China, which is the world’s biggest creditor, accounting for 65% of official bilateral debt worth hundreds of billions of dollars across Africa, Eastern Europe, Latin America and Asia...  \n Mar 31, 2021 - (Reuters) - The terms of China’s loan deals with developin...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 499,
+            "endIndex": 503,
+            "type": "Evidence",
+            "text": "data"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_dxbfss4",
+          "text_excerpt": "Moscow's defence ministry spokesman Major General Igor Konashenkov has claimed the Kremlin has evidence that Britain has staged the attack.\nHe said: \"We have... evidence that proves Britain was directly involved in organising this provocation.\"\nKonashenkov released statements, supposedly from medics...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 499,
+            "endIndex": 505,
+            "type": "Evidence",
+            "text": "report"
+          },
+          "iou": 0.0
+        }
+      ],
+      "FN_partial": [
+        {
+          "sample_id": "t1_i3oxubo",
+          "text_excerpt": "Dallas Pedo ring in 1973 linked to one in Houston involved in the murders of 28 boys by the serial killer Dean Corll. The US State Department destroyed evidence listing names of powerful people as clients of this pedo network. Full citations of evidence given.",
+          "gold_span": {
+            "startIndex": 227,
+            "endIndex": 260,
+            "type": "Evidence",
+            "text": "Full citations of evidence given."
+          },
+          "pred_span": {
+            "startIndex": 245,
+            "endIndex": 253,
+            "type": "Evidence",
+            "text": "evidence"
+          },
+          "iou": 0.2
+        },
+        {
+          "sample_id": "t1_h1j25sb",
+          "text_excerpt": "Here we go, not again; because this fire season may be the equivalent of Australia's 2019-2020 bushfires in acrage, with the difference in much higher cost in human, wildlife, and structural losses. \n Excerpt: \n Only five months into the year, a total of 2,340 fires have burned 14,340 acres, an incr...",
+          "gold_span": {
+            "startIndex": 384,
+            "endIndex": 403,
+            "type": "Evidence",
+            "text": "data from Cal Fire."
+          },
+          "pred_span": {
+            "startIndex": 380,
+            "endIndex": 388,
+            "type": "Evidence",
+            "text": "new data"
+          },
+          "iou": 0.2
+        },
+        {
+          "sample_id": "t1_inbwxt1",
+          "text_excerpt": "An informative video about the Federal Reserve's plan to outlaw the U.S. dollar in order to introduce a social credit system concurrently with \"central bank digital currencies\" (CBDCs): a new, programmable form of money which will end private transactions and reduce individual freedoms.  Link includ...",
+          "gold_span": {
+            "startIndex": 0,
+            "endIndex": 324,
+            "type": "Evidence",
+            "text": "An informative video about the Federal Reserve's plan to outlaw the U.S. dollar in order to introduce a social credit system concurrently with \"central bank digital currencies\" (CBDCs): a new, programmable form of money which will end private transactions and reduce individual freedoms.  Link includes video and transcript."
+          },
+          "pred_span": {
+            "startIndex": 303,
+            "endIndex": 308,
+            "type": "Evidence",
+            "text": "video"
+          },
+          "iou": 0.021
+        },
+        {
+          "sample_id": "t1_hqg9y2v",
+          "text_excerpt": "First, the Restaurant Revitalization Fund was supposed to promote equity. Then the grants were meant to be first come first served. Both ways had problems. \n When Congress created a grant program early this year to help battered bars and restaurants survive the pandemic, one thing was immediately cl...",
+          "gold_span": {
+            "startIndex": 371,
+            "endIndex": 422,
+            "type": "Evidence",
+            "text": "contained $28.6 billion, far below the $100 billion"
+          },
+          "pred_span": {
+            "startIndex": 385,
+            "endIndex": 386,
+            "type": "Evidence",
+            "text": "6"
+          },
+          "iou": 0.125
+        },
+        {
+          "sample_id": "t1_dst39lq",
+          "text_excerpt": "Beyoncé: ‘DNA Tests Reveal I Am Descended From Illuminati Bloodlines’.  \n Beyoncé says she deserves her position at the apex of the entertainment industry not because she is talented, beautiful or hard-working, but because she is “descended from Illuminati bloodlines,” according to reports. \n Is the...",
+          "gold_span": {
+            "startIndex": 270,
+            "endIndex": 291,
+            "type": "Evidence",
+            "text": "according to reports."
+          },
+          "pred_span": {
+            "startIndex": 280,
+            "endIndex": 282,
+            "type": "Evidence",
+            "text": "to"
+          },
+          "iou": 0.333
+        },
+        {
+          "sample_id": "t1_gv52h3s",
+          "text_excerpt": "ISIS operates as a strategic asset of the Israeli Mossad, Libyan security forces have arrested an ISIS leader in the north-eastern Libyan city of Benghazi – who just so happens to be a Mossad agent. Additionally, the fact that  ISIS has never so much as attempted an attack within the state of Israel...",
+          "gold_span": {
+            "startIndex": 386,
+            "endIndex": 438,
+            "type": "Evidence",
+            "text": "15-page report by U.N. Secretary-General Ban Ki-moon"
+          },
+          "pred_span": {
+            "startIndex": 389,
+            "endIndex": 400,
+            "type": "Evidence",
+            "text": "page report"
+          },
+          "iou": 0.286
+        },
+        {
+          "sample_id": "t1_dxjk30t",
+          "text_excerpt": "today an engine blew on a Southwest airlines flight. This same flight was cancelled yesterday. Not sure why but interesting. This was taken from Southwest airlines website",
+          "gold_span": {
+            "startIndex": 145,
+            "endIndex": 171,
+            "type": "Evidence",
+            "text": "Southwest airlines website"
+          },
+          "pred_span": {
+            "startIndex": 164,
+            "endIndex": 171,
+            "type": "Evidence",
+            "text": "website"
+          },
+          "iou": 0.333
+        }
+      ],
+      "FN_missed": [
+        {
+          "sample_id": "t1_f7ju17o",
+          "text_excerpt": "A great article on what's taking place in Bolivia, referencing some similar US backed coups in the region as well as recounting some of Bolivia's history and western policy towards the country.",
+          "gold_span": {
+            "startIndex": 8,
+            "endIndex": 15,
+            "type": "Evidence",
+            "text": "article"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": {
+            "startIndex": 138,
+            "endIndex": 139,
+            "type": "Evidence",
+            "text": "a"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": {
+            "startIndex": 414,
+            "endIndex": 416,
+            "type": "Evidence",
+            "text": "EU"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_cguw8w8",
+          "text_excerpt": "I saw a friend post this elsewhere as I was finishing my coffee and found it fascinating. The potency of PET's arguments are pretty remarkable. There has been a significant amount of mythologizing surrounding constitutional reform talks, and the events surrounding repatriation of the constitution.  ...",
+          "gold_span": {
+            "startIndex": 8,
+            "endIndex": 19,
+            "type": "Evidence",
+            "text": "friend post"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_cguw8w8",
+          "text_excerpt": "I saw a friend post this elsewhere as I was finishing my coffee and found it fascinating. The potency of PET's arguments are pretty remarkable. There has been a significant amount of mythologizing surrounding constitutional reform talks, and the events surrounding repatriation of the constitution.  ...",
+          "gold_span": {
+            "startIndex": 346,
+            "endIndex": 357,
+            "type": "Evidence",
+            "text": "text by PET"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_hsoj4b0",
+          "text_excerpt": "These surveys paint an extremely scary picture on the authoritarianism creep of the left when it comes to Americans who question or refuse to get the vaccine--for whatever reason (e.g., natural immunity). Everything from fines, incarceration, to the placement of unvaccinated into \"designated facilit...",
+          "gold_span": {
+            "startIndex": 0,
+            "endIndex": 13,
+            "type": "Evidence",
+            "text": "These surveys"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 145,
+            "endIndex": 174,
+            "type": "Evidence",
+            "text": "didn’t have a home telephone."
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 283,
+            "endIndex": 342,
+            "type": "Evidence",
+            "text": "intriguing missing persons cases in the New York City area."
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_eoryiia",
+          "text_excerpt": "This article is being pushed on my \"Front page of Google\" It attempts to tie Gabbard to conspiracy theories and discredit both. Also noticed all the recommended articles at the bottom are similarly titled and quite misrepresenting of Gabbard.",
+          "gold_span": {
+            "startIndex": 50,
+            "endIndex": 57,
+            "type": "Evidence",
+            "text": "Google\""
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gv484ay",
+          "text_excerpt": "Apr 14, 2021 - Whether or not large bilateral trade imbalances are a signal of non-reciprocal (or ‘unfair’) trade costs has been the subject of debate for some time, and was brought to the fore during President Trump’s time in office. This column argues that if the trading partners’ average trade co...",
+          "gold_span": {
+            "startIndex": 413,
+            "endIndex": 439,
+            "type": "Evidence",
+            "text": "standard gravity modeling,"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        }
+      ]
+    },
+    "Victim": {
+      "TP": [
+        {
+          "sample_id": "t1_haw5wob",
+          "text_excerpt": "NYC Mandates Vaccine in order to participate in \"society\". \n My Body, My Rules, My choice.  Segregation is wrong. \n Take back NYC and USA from forced experimental injections on the people!  \n End GMO Humans!",
+          "gold_span": {
+            "startIndex": 177,
+            "endIndex": 188,
+            "type": "Victim",
+            "text": "the people!"
+          },
+          "pred_span": {
+            "startIndex": 181,
+            "endIndex": 187,
+            "type": "Victim",
+            "text": "people"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_fkhspn4",
+          "text_excerpt": "An incredible resolution introduced to the Coronavirus Emergency Aid Package  to protect American citizens from the extreme financial burden of self quarantine as well as treatment costs for contracting Covid-19. \nAs an employee of a major retailer, inside of my cities busiest mall, I feel like I ha...",
+          "gold_span": {
+            "startIndex": 89,
+            "endIndex": 106,
+            "type": "Victim",
+            "text": "American citizens"
+          },
+          "pred_span": {
+            "startIndex": 98,
+            "endIndex": 106,
+            "type": "Victim",
+            "text": "citizens"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_gzq96bv",
+          "text_excerpt": "A publicly-available FDA “fact sheet” document reveals that 86% of children who participated in a Pfizer covid vaccine trial reported adverse reactions ranging from “mild” to “serious.” \n As part of the vaccine experiments, children aged 12 to 15 are being injected with mRNA sequences that take cont...",
+          "gold_span": {
+            "startIndex": 224,
+            "endIndex": 232,
+            "type": "Victim",
+            "text": "children"
+          },
+          "pred_span": {
+            "startIndex": 224,
+            "endIndex": 232,
+            "type": "Victim",
+            "text": "children"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_gnq55t9",
+          "text_excerpt": "Feb 14, 2021 - JERUSALEM (Reuters) - Israel’s largest healthcare provider on Sunday reported a 94% drop in symptomatic COVID-19 infections among 600,000 people who received two doses of the Pfizer’s vaccine in the country’s biggest study to date. Health maintenance organization (HMO) Clalit, which c...",
+          "gold_span": {
+            "startIndex": 145,
+            "endIndex": 159,
+            "type": "Victim",
+            "text": "600,000 people"
+          },
+          "pred_span": {
+            "startIndex": 153,
+            "endIndex": 159,
+            "type": "Victim",
+            "text": "people"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_hdsm0j5",
+          "text_excerpt": "Many people are familiar with the CIA & MKUltra - the mind-control experiment that spanned many years and left many innocent people mentally, emotionally, spiritually, physically & psychologically vulnerable. But what do we make of the events leading up to, surrounding, and following the Universe 25...",
+          "gold_span": {
+            "startIndex": 116,
+            "endIndex": 131,
+            "type": "Victim",
+            "text": "innocent people"
+          },
+          "pred_span": {
+            "startIndex": 125,
+            "endIndex": 131,
+            "type": "Victim",
+            "text": "people"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_d2re132",
+          "text_excerpt": "This article, which follows \"The Average 29 Year Old\", explains how, even though the economy has technically recovered, many average Americans are still suffering as if there had been no recovery at all. It attempts to break apart the average metric to show that in reality, the benefits of the recov...",
+          "gold_span": {
+            "startIndex": 125,
+            "endIndex": 142,
+            "type": "Victim",
+            "text": "average Americans"
+          },
+          "pred_span": {
+            "startIndex": 133,
+            "endIndex": 142,
+            "type": "Victim",
+            "text": "Americans"
+          },
+          "iou": 0.5
+        },
+        {
+          "sample_id": "t1_jgcaxki",
+          "text_excerpt": "Laying out a 5-step argument that hopefully is convincing to people who do not take seriously the threats of AI takeover. The aim is to raise awareness and contemplate whether people should be afraid and if so, how much fear is sufficient to help improve the situation without causing detrimental mas...",
+          "gold_span": {
+            "startIndex": 176,
+            "endIndex": 182,
+            "type": "Victim",
+            "text": "people"
+          },
+          "pred_span": {
+            "startIndex": 176,
+            "endIndex": 182,
+            "type": "Victim",
+            "text": "people"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_jfyjapq",
+          "text_excerpt": "the article explores the apparent contradiction between humans feeling a \"lack\" or longing for undifferentiated consciousness and the rise of individualism in Western culture. Drawing on insights from Lacanian psychoanalysis, Viktor Frankl's \"Man's Search for Meaning,\" Nietzsche's concept of the Wil...",
+          "gold_span": {
+            "startIndex": 56,
+            "endIndex": 62,
+            "type": "Victim",
+            "text": "humans"
+          },
+          "pred_span": {
+            "startIndex": 56,
+            "endIndex": 62,
+            "type": "Victim",
+            "text": "humans"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_dzdacuz",
+          "text_excerpt": "Pharma PR posts come in many shapes and forms. I'd love to get more detailed information on Steve Jobs' specific treatment and his death -- assuming he did actually die. He's definitely being used as a prime psyop to \"debunk\" plant-based solutions to cancer, and it stinks to high heaven. \n One day p...",
+          "gold_span": {
+            "startIndex": 363,
+            "endIndex": 366,
+            "type": "Victim",
+            "text": "us."
+          },
+          "pred_span": {
+            "startIndex": 363,
+            "endIndex": 365,
+            "type": "Victim",
+            "text": "us"
+          },
+          "iou": 1.0
+        },
+        {
+          "sample_id": "t1_j1i3asa",
+          "text_excerpt": "The main problem of the past decades, but particularly since 2008, is that government spending and monetary stimulus have become solutions of first resort to any slump in economic activity, even if that decline was created by government decisions. Furthermore, government spending increases, and loos...",
+          "gold_span": {
+            "startIndex": 546,
+            "endIndex": 554,
+            "type": "Victim",
+            "text": "everyone"
+          },
+          "pred_span": {
+            "startIndex": 546,
+            "endIndex": 554,
+            "type": "Victim",
+            "text": "everyone"
+          },
+          "iou": 1.0
+        }
+      ],
+      "FP": [
+        {
+          "sample_id": "t1_joq538t",
+          "text_excerpt": "Redditors are, just like most social media users, highly motivated to oppose things they see as evil. This motivation, coupled with moderators permitting ontological hatred of an entire group of people, is what gives Redditors an excuse to go on the offensive without pesky restrictions such as “empa...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 195,
+            "endIndex": 201,
+            "type": "Victim",
+            "text": "people"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_ectb45o",
+          "text_excerpt": "This is seriously messed up. The rich are literally taking children's blood and using it to reverse the aging process. Experiments have shown positive effects in mice. \n \"So it does appear to turn back the clock on aging in humans,\" says Dr.  Karmazin . \"People feel and look younger after just one t...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 224,
+            "endIndex": 230,
+            "type": "Victim",
+            "text": "humans"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_ectb45o",
+          "text_excerpt": "This is seriously messed up. The rich are literally taking children's blood and using it to reverse the aging process. Experiments have shown positive effects in mice. \n \"So it does appear to turn back the clock on aging in humans,\" says Dr.  Karmazin . \"People feel and look younger after just one t...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 518,
+            "endIndex": 524,
+            "type": "Victim",
+            "text": "people"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_duozdp9",
+          "text_excerpt": "An estimated 77 million Americans have a debt that has been transferred to a private collection agency. Thousands have ended up in jail over debts as small as $28, with African-Americans and Hispanics the most affected. \n The findings come from a new report by the American Civil Liberties Union (ACL...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 24,
+            "endIndex": 33,
+            "type": "Victim",
+            "text": "Americans"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_duozdp9",
+          "text_excerpt": "An estimated 77 million Americans have a debt that has been transferred to a private collection agency. Thousands have ended up in jail over debts as small as $28, with African-Americans and Hispanics the most affected. \n The findings come from a new report by the American Civil Liberties Union (ACL...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 176,
+            "endIndex": 186,
+            "type": "Victim",
+            "text": "-Americans"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_duozdp9",
+          "text_excerpt": "An estimated 77 million Americans have a debt that has been transferred to a private collection agency. Thousands have ended up in jail over debts as small as $28, with African-Americans and Hispanics the most affected. \n The findings come from a new report by the American Civil Liberties Union (ACL...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 199,
+            "endIndex": 200,
+            "type": "Victim",
+            "text": "s"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fp8nde0",
+          "text_excerpt": "Same as title. Huge Los Angeles Protest Today - A Vocal Call to End the Tyrannical Shutdown. I have to say that I was shocked to see some of the hate comments upvoted 300-400 in the other End The Shutdown Protest in this sub, so I won't be shocked if newly fired, butthurt, NPCs come on here and tell...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 338,
+            "endIndex": 340,
+            "type": "Victim",
+            "text": "we"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_jnavpc8",
+          "text_excerpt": "Cody Showdy discusses how fascists and the right-wing engage in unpatriotic activity like using tone policing, \"decorum\", and the concept of \"civility\" to shut down protests, enact regulatory capture, and disenfranchise the rights of people.",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 234,
+            "endIndex": 240,
+            "type": "Victim",
+            "text": "people"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fxlo8oq",
+          "text_excerpt": "This poll worries me! To address the title, 74% of black adults say that being black is extremely or very important to how they think of themselves, as opposed to 15% of whites. This is just me but somehow I don't think its good that our society encourages people to think about themselves in terms o...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 363,
+            "endIndex": 372,
+            "type": "Victim",
+            "text": "americans"
+          },
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_fxlo8oq",
+          "text_excerpt": "This poll worries me! To address the title, 74% of black adults say that being black is extremely or very important to how they think of themselves, as opposed to 15% of whites. This is just me but somehow I don't think its good that our society encourages people to think about themselves in terms o...",
+          "gold_span": null,
+          "pred_span": {
+            "startIndex": 390,
+            "endIndex": 399,
+            "type": "Victim",
+            "text": "americans"
+          },
+          "iou": 0.0
+        }
+      ],
+      "FN_partial": [
+        {
+          "sample_id": "t1_gsywhss",
+          "text_excerpt": "Mar 29, 2021 - The freshly published British government figures show that by 2020 4.3 million children in Britain lived in poverty. Nearly 2 million of them went hungry because their families struggled to buy food...",
+          "gold_span": {
+            "startIndex": 82,
+            "endIndex": 216,
+            "type": "Victim",
+            "text": "4.3 million children in Britain lived in poverty. Nearly 2 million of them went hungry because their families struggled to buy food..."
+          },
+          "pred_span": {
+            "startIndex": 94,
+            "endIndex": 102,
+            "type": "Victim",
+            "text": "children"
+          },
+          "iou": 0.045
+        },
+        {
+          "sample_id": "t1_il1mxfw",
+          "text_excerpt": "I am re-crossposting (again) this as this is a post that is directly related to the Israeli Palestinian conflict.  \n The list by the Cardiff Stop The War representative is very accurate as regards the standard arguments put forward by the pro-Israeli side, and is recognised internationally as such. ...",
+          "gold_span": {
+            "startIndex": 461,
+            "endIndex": 493,
+            "type": "Victim",
+            "text": "bombing and killing children, as"
+          },
+          "pred_span": {
+            "startIndex": 481,
+            "endIndex": 489,
+            "type": "Victim",
+            "text": "children"
+          },
+          "iou": 0.2
+        },
+        {
+          "sample_id": "t1_fc71da5",
+          "text_excerpt": "Ryan Cristián, The Last American Vagabond, cited yet another disproportionate IDF attack on Gaza civilians, women & children, showing real terrorists are Israeli.",
+          "gold_span": {
+            "startIndex": 92,
+            "endIndex": 125,
+            "type": "Victim",
+            "text": "Gaza civilians, women & children,"
+          },
+          "pred_span": {
+            "startIndex": 97,
+            "endIndex": 106,
+            "type": "Victim",
+            "text": "civilians"
+          },
+          "iou": 0.2
+        },
+        {
+          "sample_id": "t1_f95vb9l",
+          "text_excerpt": "Socialism. The government MLM. Only supported by people in non socialist countries that fall for the utopian idea of socialism that doesn't exist. Meanwhile, the people that actually live under socialism, know its a terrible thing and protest against it. Which is why they support Trump because Trump...",
+          "gold_span": {
+            "startIndex": 162,
+            "endIndex": 204,
+            "type": "Victim",
+            "text": "people that actually live under socialism,"
+          },
+          "pred_span": {
+            "startIndex": 162,
+            "endIndex": 168,
+            "type": "Victim",
+            "text": "people"
+          },
+          "iou": 0.167
+        }
+      ],
+      "FN_missed": [
+        {
+          "sample_id": "t1_f7ju17o",
+          "text_excerpt": "A great article on what's taking place in Bolivia, referencing some similar US backed coups in the region as well as recounting some of Bolivia's history and western policy towards the country.",
+          "gold_span": {
+            "startIndex": 42,
+            "endIndex": 50,
+            "type": "Victim",
+            "text": "Bolivia,"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_f7ju17o",
+          "text_excerpt": "A great article on what's taking place in Bolivia, referencing some similar US backed coups in the region as well as recounting some of Bolivia's history and western policy towards the country.",
+          "gold_span": {
+            "startIndex": 136,
+            "endIndex": 145,
+            "type": "Victim",
+            "text": "Bolivia's"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": {
+            "startIndex": 18,
+            "endIndex": 23,
+            "type": "Victim",
+            "text": "other"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_givys64",
+          "text_excerpt": "Germany has upset other EU member states by securing a disproportionately large share of the bloc’s common pool of vaccines, according to a report. \n Brussels  has ordered  roughly two billion doses in total, which are theoretically to be divided up according to each member state’s population. Howev...",
+          "gold_span": {
+            "startIndex": 150,
+            "endIndex": 158,
+            "type": "Victim",
+            "text": "Brussels"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_hsoj4b0",
+          "text_excerpt": "These surveys paint an extremely scary picture on the authoritarianism creep of the left when it comes to Americans who question or refuse to get the vaccine--for whatever reason (e.g., natural immunity). Everything from fines, incarceration, to the placement of unvaccinated into \"designated facilit...",
+          "gold_span": {
+            "startIndex": 263,
+            "endIndex": 275,
+            "type": "Victim",
+            "text": "unvaccinated"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_gzs5v7g",
+          "text_excerpt": "On July 16, 1996, 36-year-old Susan Walsh left her Nutley, New Jersey apartment to use a pay phone across the street – a routine habit since she didn’t have a home telephone. She was never seen again. \n20 years later, the disappearance of Susan Walsh continues to be one of the more intriguing missin...",
+          "gold_span": {
+            "startIndex": 51,
+            "endIndex": 58,
+            "type": "Victim",
+            "text": "Nutley,"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_eoryiia",
+          "text_excerpt": "This article is being pushed on my \"Front page of Google\" It attempts to tie Gabbard to conspiracy theories and discredit both. Also noticed all the recommended articles at the bottom are similarly titled and quite misrepresenting of Gabbard.",
+          "gold_span": {
+            "startIndex": 234,
+            "endIndex": 242,
+            "type": "Victim",
+            "text": "Gabbard."
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_ewibxb5",
+          "text_excerpt": "Conspiracy theorists have repeatedly been dismissed in previous cases yet finally, the Epstein case had brought more people to the sceptical side. Although this case may be buried perhaps future conspiracies will be taken more seriously",
+          "gold_span": {
+            "startIndex": 117,
+            "endIndex": 123,
+            "type": "Victim",
+            "text": "people"
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_ih5cggk",
+          "text_excerpt": "An unvaccinated young man in Rockland County, NY has contracted paralytic polio that is consistent with the source from a live attenuated vaccine. It was contracted in the US as there was no international travel. It seems that they must have contracted the virus from someone who had received the liv...",
+          "gold_span": {
+            "startIndex": 435,
+            "endIndex": 439,
+            "type": "Victim",
+            "text": "US)."
+          },
+          "pred_span": null,
+          "iou": 0.0
+        },
+        {
+          "sample_id": "t1_hbkbe8c",
+          "text_excerpt": "I assume most people hear are familiar with the idea that an old world conspiracy that came to fruition in the Anglo monarchies and resulted in the colonization/control of most of the world. Their largely Egyptian themed monuments are everywhere in America. Does resistance to this conspiracy include...",
+          "gold_span": {
+            "startIndex": 172,
+            "endIndex": 190,
+            "type": "Victim",
+            "text": "most of the world."
+          },
+          "pred_span": null,
+          "iou": 0.0
+        }
+      ]
+    }
+  }
+}
