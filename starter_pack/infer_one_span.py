@@ -1,49 +1,86 @@
-import json
-import sys
+"""
+infer_one_span.py — versiune modificata pentru lucrarea de licenta
+SemEval 2026 Task 10 (PsyCoMark) — Span Extraction Subtask
 
-import numpy as np
+Modificari fata de versiunea oficiala:
+  - argparse complet
+  - cauta modelul salvat explicit (final_model/) inainte de checkpoints
+  - max_length configurabil (sa fie consistent cu antrenarea)
+  - print explicit al caii incarcate (sanity check)
+  - foloseste AutoModel/AutoTokenizer pentru flexibilitate (Etapa 2 cu LLM)
+"""
+
+import argparse
+import json
 import os
-import glob
-from datasets import Dataset
-from transformers import (
-    DistilBertTokenizerFast,
-    DistilBertForTokenClassification,
-    Trainer,
-    DataCollatorForTokenClassification,
-    TrainingArguments,
-)
+import sys
 from collections import defaultdict
 
-MODEL_PATH_BASE = "distilbert-single-type-simplified"
-MARKER_TYPES_TO_INFER = ["Action", "Actor", "Effect", "Evidence", "Victim"]
-TEST_FILE = "dev_rehydrated.jsonl"
-SUBMISSION_FILE = "submission.jsonl"
-MODEL_NAME = "distilbert-base-uncased"
-BATCH_SIZE = 64
+import numpy as np
+from datasets import Dataset
+from transformers import (
+    AutoTokenizer,
+    AutoModelForTokenClassification,
+    Trainer,
+    TrainingArguments,
+    DataCollatorForTokenClassification,
+)
 
 
-def find_latest_checkpoint(base_path, marker_type):
+# ---------------------------------------------------------------------------
+# Localizare model salvat
+# ---------------------------------------------------------------------------
+
+def resolve_model_path(model_dir: str, marker_type: str) -> str:
     """
-    Scans the type-specific base_path directory for the latest numbered 'checkpoint-*' subfolder.
+    Cauta modelul antrenat pentru marker_type in urmatoarea ordine:
+      1. {model_dir}/{marker_type}/final_model/   (salvat explicit)
+      2. {model_dir}/{marker_type}/checkpoint-XXX (cel mai mare numar)
+      3. {model_dir}/{marker_type}/                (fallback)
+
+    Aceasta ordine asigura ca folosim modelul SALVAT EXPLICIT (best model
+    dupa load_best_model_at_end), nu ultimul checkpoint care poate fi mai
+    rau decat best.
     """
-    full_path = f"{base_path}-{marker_type}"
-    checkpoint_dirs = glob.glob(os.path.join(full_path, "checkpoint-*"))
+    base = os.path.join(model_dir, marker_type)
 
-    if not checkpoint_dirs:
-        print(f"Warning: No 'checkpoint-*' folder found. Assuming model files are in: {full_path}")
-        return full_path
+    # Optiunea 1: final_model salvat explicit
+    final_path = os.path.join(base, "final_model")
+    if os.path.isdir(final_path) and os.path.exists(os.path.join(final_path, "config.json")):
+        print(f"  [load] final_model: {final_path}")
+        return final_path
 
-    checkpoint_dirs.sort(key=lambda x: int(os.path.basename(x).split('-')[-1]))
+    # Optiunea 2: cel mai mare checkpoint
+    if os.path.isdir(base):
+        checkpoints = []
+        for name in os.listdir(base):
+            if name.startswith("checkpoint-"):
+                try:
+                    step = int(name.split("-")[1])
+                    checkpoints.append((step, os.path.join(base, name)))
+                except (IndexError, ValueError):
+                    continue
+        if checkpoints:
+            checkpoints.sort()
+            latest = checkpoints[-1][1]
+            print(f"  [load] latest checkpoint: {latest}")
+            return latest
 
-    latest_checkpoint = checkpoint_dirs[-1]
-    print(f"Found latest checkpoint: {latest_checkpoint}")
-    return latest_checkpoint
+    # Optiunea 3: folderul de baza
+    if os.path.isdir(base) and os.path.exists(os.path.join(base, "config.json")):
+        print(f"  [load] base folder: {base}")
+        return base
+
+    raise FileNotFoundError(f"No model found for marker_type={marker_type} in {base}")
 
 
-def load_data(file_path):
-    """Loads all data from a JSONL file, preserving order, and retaining the unique ID."""
+# ---------------------------------------------------------------------------
+# Incarcare date (pastrata din versiunea oficiala)
+# ---------------------------------------------------------------------------
+
+def load_data(file_path: str) -> list:
     data = []
-    with open(file_path, 'r') as f:
+    with open(file_path, "r") as f:
         for i, line in enumerate(f):
             try:
                 item = json.loads(line.strip())
@@ -51,230 +88,200 @@ def load_data(file_path):
                 item["text"] = item.get("text", "")
                 item["markers"] = item.get("markers", [])
                 item["conspiracy"] = item.get("conspiracy", "No")
-
                 data.append(item)
             except json.JSONDecodeError:
-                print(f"Skipping invalid JSON line at index {i} in {file_path}: {line.strip()}")
+                print(f"Skipping invalid JSON line at {i}: {line.strip()[:80]}")
     print(f"Loaded {len(data)} samples for inference.")
     return data
 
 
-def tokenize_and_align_labels(examples, tokenizer, label_to_id):
-    """Tokenizes the text and returns inputs with offset mapping for post-processing."""
-    tokenized_inputs = tokenizer(examples["text"], truncation=True, padding="max_length", max_length=128,
-                                 return_offsets_mapping=True)
+def tokenize_for_inference(examples, tokenizer, max_length):
+    """Tokenizeaza textul, pastreaza offset_mapping pentru reconstructia spanurilor."""
+    tokenized = tokenizer(
+        examples["text"],
+        truncation=True,
+        padding="max_length",
+        max_length=max_length,
+        return_offsets_mapping=True,
+    )
+    # Trainer.predict cere o cheie 'labels'; o populam cu -100 (ignorata)
+    tokenized["labels"] = [[-100] * len(om) for om in tokenized["offset_mapping"]]
+    return tokenized
 
-    # We generate dummy labels as the Trainer expects a 'labels' key in the dataset,
-    # but the actual values (-100) are ignored during prediction.
-    tokenized_inputs["labels"] = [[-100] * len(offset_map) for offset_map in tokenized_inputs["offset_mapping"]]
 
-    return tokenized_inputs
+# ---------------------------------------------------------------------------
+# Reconstructie spanuri (pastrata din versiunea oficiala, cu mici curatari)
+# ---------------------------------------------------------------------------
 
-
-def reconstruct_spans(predictions, tokenized_dataset, id_to_label):
-    """
-    Converts token-level predictions (O vs TYPE) back into a list of character spans,
-    designed for the simplified binary classification model (O or TYPE, no IOB tags).
-
-    Args:
-        predictions (np.array): Model output array of predicted label IDs (shape: N samples x M tokens).
-        tokenized_dataset (Dataset): The Hugging Face dataset containing 'offset_mapping' and 'text'.
-        id_to_label (dict): Mapping from numerical ID to simplified label string (e.g., 1 -> 'EVIDENCE').
-
-    Returns:
-        dict: A dictionary mapping sample index to a list of reconstructed marker dictionaries
-              for the single marker type inferred.
-    """
-    reconstructed_markers = defaultdict(list)
-
-    # Determine the positive label type (the one that is not 'O').
-    # Assuming ID 0 is 'O' and ID 1 is the marker type.
-    positive_label_type = id_to_label.get(1)
-    if not positive_label_type or positive_label_type == "O":
-        print("Error: Model configuration does not match simplified binary training (ID 1 is not the marker type).")
-        return reconstructed_markers
+def reconstruct_spans(predictions, tokenized_dataset, marker_type: str):
+    reconstructed = defaultdict(list)
 
     for i, pred_ids in enumerate(predictions):
-        offsets = tokenized_dataset[i]['offset_mapping']
-        original_text = tokenized_dataset[i]['text']
+        offsets = tokenized_dataset[i]["offset_mapping"]
+        original_text = tokenized_dataset[i]["text"]
 
-        current_span_start_char = None
+        current_start = None
 
-        # Iterate over tokens
+        def is_special(offset_tuple):
+            if offset_tuple is None:
+                return True
+            s, e = offset_tuple
+            if s is None or e is None:
+                return True
+            if s == 0 and e == 0:
+                return True
+            return False
+
         for token_idx, label_id in enumerate(pred_ids):
-            offset_tuple = offsets[token_idx]
+            offset = offsets[token_idx]
 
-            # Check for special tokens, padding, or tokens outside the text range
-            is_special = (offset_tuple is None or offset_tuple[0] is None or offset_tuple[1] is None or (
-                        offset_tuple[0] == 0 and offset_tuple[1] == 0))
-
-            if is_special:
-                # If we were tracking a span, close it using the end of the *previous* non-special token
-                if current_span_start_char is not None:
-                    prev_end_char = None
-                    # Find the end of the last valid token
-                    if token_idx > 0 and offsets[token_idx - 1][1] is not None:
-                        prev_end_char = offsets[token_idx - 1][1]
-
-                    if prev_end_char is not None:
-                        span_text = original_text[current_span_start_char:prev_end_char]
-                        reconstructed_markers[i].append({
-                            "startIndex": current_span_start_char,
-                            "endIndex": prev_end_char,
-                            "type": positive_label_type,
-                            "text": span_text
+            if is_special(offset):
+                # inchide span deschis (daca exista)
+                if current_start is not None:
+                    prev_end = None
+                    if token_idx > 0 and not is_special(offsets[token_idx - 1]):
+                        prev_end = offsets[token_idx - 1][1]
+                    if prev_end is not None:
+                        reconstructed[i].append({
+                            "startIndex": current_start,
+                            "endIndex": prev_end,
+                            "type": marker_type,
+                            "text": original_text[current_start:prev_end],
                         })
-
-                    current_span_start_char = None
+                    current_start = None
                 continue
 
-            label = id_to_label[label_id]
-            start_char = offset_tuple[0]
+            start_char = offset[0]
 
-            if label == positive_label_type:
-                # Start or continue a span
-                if current_span_start_char is None:
-                    # Start new span
-                    current_span_start_char = start_char
-
-            elif label == 'O':
-                # End the span if one was active
-                if current_span_start_char is not None:
-                    # End is the end of the PREVIOUS token. The token at current_idx is 'O'.
-                    # We need the end of the token at token_idx - 1.
-                    prev_end_char = offsets[token_idx - 1][1] if token_idx > 0 and offsets[token_idx - 1][
-                        1] is not None else start_char
-
-                    span_text = original_text[current_span_start_char:prev_end_char]
-                    reconstructed_markers[i].append({
-                        "startIndex": current_span_start_char,
-                        "endIndex": prev_end_char,
-                        "type": positive_label_type,
-                        "text": span_text
+            if label_id == 1:  # marker
+                if current_start is None:
+                    current_start = start_char
+            else:  # "O"
+                if current_start is not None:
+                    prev_end = offsets[token_idx - 1][1] if token_idx > 0 else start_char
+                    reconstructed[i].append({
+                        "startIndex": current_start,
+                        "endIndex": prev_end,
+                        "type": marker_type,
+                        "text": original_text[current_start:prev_end],
                     })
-                    current_span_start_char = None
+                    current_start = None
 
-        # After loop: Finalize any span that was still open at the end of the sequence
-        if current_span_start_char is not None:
-            # The end of the span is the end of the last non-special token in the sequence
-            last_valid_end = None
-            last_token_idx = len(pred_ids) - 1
-            # Search backwards from the end of the sequence for the last non-special token's end index
-            while last_token_idx >= 0:
-                offset_tuple_end = offsets[last_token_idx]
-                # Check if the token at this index is not a special token
-                if offset_tuple_end is not None and offset_tuple_end[1] is not None and offset_tuple_end[1] != 0:
-                    last_valid_end = offset_tuple_end[1]
+        # span deschis la final?
+        if current_start is not None:
+            last_end = None
+            for k in range(len(pred_ids) - 1, -1, -1):
+                if not is_special(offsets[k]):
+                    last_end = offsets[k][1]
                     break
-                last_token_idx -= 1
-
-            if last_valid_end is not None:
-                span_text = original_text[current_span_start_char:last_valid_end]
-                reconstructed_markers[i].append({
-                    "startIndex": current_span_start_char,
-                    "endIndex": last_valid_end,
-                    "type": positive_label_type,
-                    "text": span_text
+            if last_end is not None:
+                reconstructed[i].append({
+                    "startIndex": current_start,
+                    "endIndex": last_end,
+                    "type": marker_type,
+                    "text": original_text[current_start:last_end],
                 })
 
-    return reconstructed_markers
+    return reconstructed
 
 
-if __name__ == '__main__':
+# ---------------------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------------------
 
-    # 1. Load Data
-    raw_data = load_data(TEST_FILE)
+def parse_args():
+    p = argparse.ArgumentParser(description="Inference for span extraction (one-vs-rest)")
+    p.add_argument("--model_dir", type=str, required=True,
+                   help="Folder cu sub-foldere per marker_type (ex: distilbert-exp01a)")
+    p.add_argument("--test_file", type=str, required=True,
+                   help="JSONL de evaluare (dev_rehydrated.jsonl)")
+    p.add_argument("--submission_file", type=str, required=True,
+                   help="Output: submission JSONL")
+    p.add_argument("--marker_types", type=str, nargs="+",
+                   default=["Action", "Actor", "Effect", "Evidence", "Victim"])
+    p.add_argument("--max_length", type=int, default=128)
+    p.add_argument("--batch_size", type=int, default=64)
+    p.add_argument("--tokenizer_name", type=str, default="distilbert-base-uncased",
+                   help="Folosit doar daca tokenizer-ul nu e in folderul modelului")
+    return p.parse_args()
+
+
+def main():
+    args = parse_args()
+    print(f"Args: {vars(args)}")
+
+    raw_data = load_data(args.test_file)
     if not raw_data:
-        print("Error: No data loaded. Cannot perform inference.")
-        sys.exit(-1)
+        print("Error: no data loaded.")
+        sys.exit(1)
 
     unique_ids = [d["_id"] for d in raw_data]
     conspiracy_keys = [d["conspiracy"] for d in raw_data]
 
     test_dataset = Dataset.from_list(raw_data)
 
-    tokenizer = DistilBertTokenizerFast.from_pretrained(MODEL_NAME)
+    # Folosim tokenizer-ul incarcat de la primul model gasit (ar trebui sa fie
+    # acelasi pentru toate marker_types). Daca esueaza, fallback la default.
+    try:
+        first_path = resolve_model_path(args.model_dir, args.marker_types[0])
+        tokenizer = AutoTokenizer.from_pretrained(first_path)
+    except Exception:
+        print(f"  Tokenizer fallback to: {args.tokenizer_name}")
+        tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name)
 
-    dummy_label_to_id = {"O": 0}
-
-    tokenized_test_dataset = test_dataset.map(
-        tokenize_and_align_labels,
-        batched=True,
-        remove_columns=[col for col in test_dataset.column_names if
-                        col not in ['text', 'offset_mapping', '_id', 'conspiracy']],
-        fn_kwargs={"tokenizer": tokenizer, "label_to_id": dummy_label_to_id}
+    tokenized_test = test_dataset.map(
+        tokenize_for_inference, batched=True,
+        fn_kwargs={"tokenizer": tokenizer, "max_length": args.max_length},
+        remove_columns=[c for c in test_dataset.column_names
+                        if c not in ["text", "_id", "conspiracy"]],
     )
 
-    # Dictionary to aggregate all predicted markers across all types
-    # Map index (0 to len(raw_data) - 1) to a list of markers
-    all_predicted_markers = defaultdict(list)
+    all_predicted = defaultdict(list)
 
-    # 2. Iterate and Infer for Each Marker Type
-    for marker_type in MARKER_TYPES_TO_INFER:
-
-        # The new find_latest_checkpoint uses the marker_type to build the full path
-        model_directory = find_latest_checkpoint(MODEL_PATH_BASE, marker_type)
-
-        print(f"\n--- Running inference for type: {marker_type} ---")
-        print(f"Loading model from: {model_directory}")
-
+    for marker_type in args.marker_types:
+        print(f"\n--- Inference for: {marker_type} ---")
         try:
-            # Load the model.
-            model = DistilBertForTokenClassification.from_pretrained(model_directory)
-
-            # Manually define the id_to_label mapping for the binary model (0=O, 1=TYPE)
-            # This ensures the correct marker type name is used instead of generic 'LABEL_1'.
-            id_to_label = {0: "O", 1: marker_type}
-            print(f"Using defined labels for reconstruction: {id_to_label}")
-
+            model_path = resolve_model_path(args.model_dir, marker_type)
+            model = AutoModelForTokenClassification.from_pretrained(model_path)
         except Exception as e:
-            print(f"Error loading model for {marker_type} from '{model_directory}'. Details: {e}")
+            print(f"  ERROR loading model for {marker_type}: {e}")
             continue
 
-        # 3. Prepare for Inference using Trainer
         data_collator = DataCollatorForTokenClassification(tokenizer)
-
-        prediction_args = Trainer(
+        trainer = Trainer(
             model=model,
             args=TrainingArguments(
-                output_dir=f"./tmp_inference_span_{marker_type}",
-                per_device_eval_batch_size=BATCH_SIZE,
-                report_to="none"
+                output_dir=f"./tmp_inference_{marker_type}",
+                per_device_eval_batch_size=args.batch_size,
+                report_to="none",
             ),
             data_collator=data_collator,
-            tokenizer=tokenizer
+            processing_class=tokenizer,
         )
 
-        # 4. Perform Inference
-        predictions_output = prediction_args.predict(tokenized_test_dataset)
+        pred_output = trainer.predict(tokenized_test)
+        logits = pred_output.predictions
+        pred_ids = np.argmax(logits, axis=2)
 
-        logits = predictions_output.predictions
-        predicted_class_ids = np.argmax(logits, axis=2)
+        markers_for_type = reconstruct_spans(pred_ids, tokenized_test, marker_type)
+        for sample_idx, mks in markers_for_type.items():
+            all_predicted[sample_idx].extend(mks)
 
-        # 5. Reconstruct Spans for this specific marker type using simplified logic
-        print(f"Reconstructing character spans for {marker_type}...")
-        current_marker_map = reconstruct_spans(predicted_class_ids, tokenized_test_dataset, id_to_label)
+        print(f"  Predicted {sum(len(v) for v in markers_for_type.values())} spans")
 
-        # 6. Aggregate results (index i corresponds to the sample index)
-        for i, markers in current_marker_map.items():
-            all_predicted_markers[i].extend(markers)
+    # Scriere submission
+    print(f"\nWriting submission to: {args.submission_file}")
+    os.makedirs(os.path.dirname(args.submission_file) or ".", exist_ok=True)
+    with open(args.submission_file, "w") as f:
+        for i in range(len(raw_data)):
+            obj = {
+                "_id": unique_ids[i],
+                "conspiracy": conspiracy_keys[i],
+                "markers": all_predicted.get(i, []),
+            }
+            f.write(json.dumps(obj) + "\n")
+    print("Done.")
 
-    print(f"\nSaving final aggregated predictions ({len(raw_data)} samples) to {SUBMISSION_FILE} (JSONL format)...")
 
-    jsonl_lines = []
-    for i in range(len(raw_data)):
-        # Get the predicted markers (aggregated from all models)
-        predicted_markers = all_predicted_markers.get(i, [])
-
-        # Create the submission object
-        jsonl_obj = {
-            "_id": unique_ids[i],
-            "conspiracy": conspiracy_keys[i],
-            "markers": predicted_markers
-        }
-        jsonl_lines.append(json.dumps(jsonl_obj))
-
-    with open(SUBMISSION_FILE, 'w') as f:
-        f.write('\n'.join(jsonl_lines) + '\n')
-
-    print(f"Submission file '{SUBMISSION_FILE}' generated successfully.")
+if __name__ == "__main__":
+    main()
