@@ -1,0 +1,21 @@
+{
+    "F1_Aggregate_Token": 0.3050311148613015,
+    "Precision_Aggregate_Token": 0.26992719805861487,
+    "Recall_Aggregate_Token": 0.3506304558680892,
+    "F1_Macro_Token": 0.2906166069147964,
+    "F1_Action_Token": 0.26727688787185355,
+    "Precision_Action_Token": 0.2302839116719243,
+    "Recall_Action_Token": 0.31842966194111233,
+    "F1_Actor_Token": 0.42390548992355803,
+    "Precision_Actor_Token": 0.36835748792270534,
+    "Recall_Actor_Token": 0.49918166939443537,
+    "F1_Effect_Token": 0.21517412935323382,
+    "Precision_Effect_Token": 0.1913716814159292,
+    "Recall_Effect_Token": 0.24573863636363635,
+    "F1_Evidence_Token": 0.21651376146788992,
+    "Precision_Evidence_Token": 0.1863157894736842,
+    "Recall_Evidence_Token": 0.2583941605839416,
+    "F1_Victim_Token": 0.33021276595744675,
+    "Precision_Victim_Token": 0.33506044905008636,
+    "Recall_Victim_Token": 0.32550335570469796
+}

@@ -18,6 +18,8 @@ identificarea de pasaje (spans) din texte care exprimă markeri psiho-comportame
 │   ├── train_one_span.py      Antrenare per categorie (one-vs-rest)
 │   ├── infer_one_span.py      Inferență, generează submission JSONL
 │   ├── eval_token.py          Evaluator oficial (token F1 cu IoU≥0.5)
+│   ├── train_one_span_lora.py   Antrenare LoRA pe Qwen2.5 (Etapa 2)
+│   ├── infer_one_span_lora.py   Inferență cu adaptoare LoRA (Etapa 2)
 │   ├── qualitative_analysis.py  Analiza erorilor (TP/FP/FN_partial/FN_missed)
 │   └── generate_figures.py    Grafice pentru lucrare (6 figuri PNG)
 │
@@ -30,7 +32,11 @@ identificarea de pasaje (spans) din texte care exprimă markeri psiho-comportame
 │   ├── etapa1_multiseed_1A.csv      Multi-seed cu mean ± std
 │   ├── qualitative/                 Analiza calitativă (JSON + exemple)
 │   ├── figures/                     6 figuri PNG pentru lucrare
-│   └── scores/                      Scoruri evaluate (Codabench format)
+│   ├── scores/                      Scoruri evaluate Etapa 1 (Codabench format)
+│   └── stage2/                      Scoruri Etapa 2 (multi-seed + ablație rang)
+│       ├── scores_val_seed{42,123,2024}.json
+│       ├── summary_stage2.json      Sumar consolidat (medii, std, comparații)
+│       └── ablation_rank/           Ablație rang LoRA pe Victim
 │
 ├── etapa1_documentare.md      Documentare completă Etapa 1 (cu interpretări)
 ├── README.md                  Acest fișier
@@ -46,10 +52,17 @@ Investigare a 3 strategii pe 5 categorii:
 
 Detalii complete în `etapa1_documentare.md`.
 
-### Etapa 2 — LoRA pe LLM modern (ÎN CURS)
+### Etapa 2 — LoRA pe Qwen2.5-0.5B (FINALIZAT)
 
-Adaptare a aceluiași task pe Qwen2.5-0.5B sau Llama-3.2-1B cu LoRA.
-Așteptăm îmbunătățiri pe categoriile abstracte (Action, Effect, Evidence).
+Adaptare eficientă parametric (LoRA) a modelului Qwen2.5-0.5B pe aceeași sarcină,
+cu doar 0.87% parametri antrenabili (4.3M / 498M).
+
+- **Configurație:** r=32, alpha=64, target q/k/v/o_proj, 12 epoci, class_weight=3.0
+- **F1 macro:** 0.2997 ± 0.0079 (multi-seed pe 3 seeds)
+- **Ablație rang LoRA** (Victim): r=4 -> 0.2845, r=32 -> 0.3302, r=64 -> 0.3345
+
+Echivalență statistică cu Full Fine-Tuning DistilBERT (Etapa 1: 0.2970), dar cu
+o reducere de ~15x a parametrilor actualizați. Detalii în `etapa2_documentare.md`.
 
 ## Cum rulezi experimentele
 
