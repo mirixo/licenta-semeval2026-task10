@@ -1,9 +1,6 @@
 # Licență SemEval 2026 Task 10 (PsyCoMark) — Subtask Span Extraction
 
 **Autor:** Miriam Costea
-**Coordonator:** [Numele coordonatorului]
-**Universitate:** [Universitatea]
-**Anul:** 2026
 
 ## Descrierea proiectului
 
@@ -109,6 +106,3 @@ Toate experimentele folosesc seed fix (42 by default, cu multi-seed pe 123 și 2
 pentru verificare statistică). Pentru reproducere completă, vezi `data/README.md`
 pentru obținerea datasetului oficial PsyCoMark.
 
-## Contact
-
-Pentru întrebări legate de această lucrare: miriamcostea6@gmail.com

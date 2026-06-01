@@ -285,5 +285,4 @@ Insight-urile din Etapa 1 sugerează direcții concrete pentru Etapa 2 (LoRA pe 
 
 ---
 
-**Status documentare Etapa 1:** ✅ COMPLET
 **Următor:** Etapa 2 — LoRA pe LLM modern (Qwen2.5-0.5B)
