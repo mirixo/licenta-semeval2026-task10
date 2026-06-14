@@ -1,108 +1,141 @@
-# Licență SemEval 2026 Task 10 (PsyCoMark) — Subtask Span Extraction
+# SemEval 2026 Task 10 (PsyCoMark) — Extragerea markerilor psiho-comportamentali
 
 **Autor:** Miriam Costea
+**Lucrare de licență** — subtask-ul de *span extraction*
 
-## Descrierea proiectului
+Acest depozit conține codul și experimentele lucrării de licență pe subtask-ul de extragere a *span*-urilor din competiția SemEval 2026 Task 10 (PsyCoMark): identificarea, în comentarii de pe Reddit, a pasajelor care exprimă cinci categorii de markeri psiho-comportamentali din discursul conspirativ — Action, Actor, Effect, Evidence, Victim.
 
-Acest repo conține implementarea și experimentele pentru lucrarea de licență
-pe subtask-ul **span extraction** al competiției SemEval 2026 Task 10 (PsyCoMark) —
-identificarea de pasaje (spans) din texte care exprimă markeri psiho-comportamentali
-și conspirativi (Action, Actor, Effect, Evidence, Victim).
+Sunt investigate două direcții metodologice complementare: ajustarea fină (*fine-tuning*) a modelului encoder DistilBERT și adaptarea eficientă parametric (LoRA) a modelului decoder Qwen2.5-0.5B, pe aceeași sarcină și cu aceleași metrici.
 
-## Structura repo-ului
+## Rezultate principale
+
+Metrica oficială este F1 la nivel de token, cu un prag de suprapunere IoU ≥ 0,5. Fiecare configurație principală a fost rulată de cinci ori, fără *seed* fixat; se raportează media și deviația standard.
+
+|Configurație|Parametri antrenabili|F1 macro|
+|-|-|-|
+|DistilBERT — *linear probing*|0,15 mil.|0,055|
+|DistilBERT — *unfreeze* 4 straturi|21,30 mil.|0,253|
+|DistilBERT — *fine-tuning* complet|66,90 mil.|**0,2916 ± 0,0079**|
+|Qwen2.5-0.5B — doar capul (fără LoRA)|\~1,8 mii|0,1197 ± 0,0048|
+|Qwen2.5-0.5B — LoRA (r = 32)|4,30 mil. (0,87%)|**0,2930 ± 0,0149**|
+|Baseline oficial (pachet de start)|—|\~0,15|
+
+Cele două abordări principale sunt echivalente statistic (diferență de 0,0014, sub deviația standard a fiecăreia), deși LoRA actualizează de \~15 ori mai puțini parametri. Ambele aproape dublează baseline-ul oficial.
+
+## Structura depozitului
+
+```
 .
-├── starter_pack/              Cod modificat din pachetul oficial SemEval
-│   ├── train_one_span.py      Antrenare per categorie (one-vs-rest)
-│   ├── infer_one_span.py      Inferență, generează submission JSONL
-│   ├── eval_token.py          Evaluator oficial (token F1 cu IoU≥0.5)
-│   ├── train_one_span_lora.py   Antrenare LoRA pe Qwen2.5 (Etapa 2)
-│   ├── infer_one_span_lora.py   Inferență cu adaptoare LoRA (Etapa 2)
-│   ├── qualitative_analysis.py  Analiza erorilor (TP/FP/FN_partial/FN_missed)
-│   └── generate_figures.py    Grafice pentru lucrare (6 figuri PNG)
-│
-├── data/                      Split-uri reproductibile (vezi data/README.md)
-│   └── rehydrated/
-│       └── val_split*.jsonl
-│
-├── results/                   Rezultate experimentale și figuri
-│   ├── etapa1_all_runs.csv          Tabel principal F1 (3 strategii × 5 markeri)
-│   ├── etapa1_multiseed_1A.csv      Multi-seed cu mean ± std
-│   ├── qualitative/                 Analiza calitativă (JSON + exemple)
-│   ├── figures/                     6 figuri PNG pentru lucrare
-│   ├── scores/                      Scoruri evaluate Etapa 1 (Codabench format)
-│   └── stage2/                      Scoruri Etapa 2 (multi-seed + ablație rang)
-│       ├── scores_val_seed{42,123,2024}.json
-│       ├── summary_stage2.json      Sumar consolidat (medii, std, comparații)
-│       └── ablation_rank/           Ablație rang LoRA pe Victim
-│
-├── etapa1_documentare.md      Documentare completă Etapa 1 (cu interpretări)
-├── README.md                  Acest fișier
-└── .gitignore
-## Etapele lucrării
-
-### Etapa 1 — DistilBERT cu strategii fine-tuning (FINALIZAT)
-
-Investigare a 3 strategii pe 5 categorii:
-- **Linear Probe** (1.5K params) — F1 macro 0.055
-- **Unfreeze Last 4** (28M params) — F1 macro 0.253
-- **Full Fine-Tuning** (66M params) — F1 macro 0.297 ± 0.006 (multi-seed pe 3 seeds)
-
-Detalii complete în `etapa1_documentare.md`.
-
-### Etapa 2 — LoRA pe Qwen2.5-0.5B (FINALIZAT)
-
-Adaptare eficientă parametric (LoRA) a modelului Qwen2.5-0.5B pe aceeași sarcină,
-cu doar 0.87% parametri antrenabili (4.3M / 498M).
-
-- **Configurație:** r=32, alpha=64, target q/k/v/o_proj, 12 epoci, class_weight=3.0
-- **F1 macro:** 0.2997 ± 0.0079 (multi-seed pe 3 seeds)
-- **Ablație rang LoRA** (Victim): r=4 -> 0.2845, r=32 -> 0.3302, r=64 -> 0.3345
-
-Echivalență statistică cu Full Fine-Tuning DistilBERT (Etapa 1: 0.2970), dar cu
-o reducere de ~15x a parametrilor actualizați. Detalii în `etapa2_documentare.md`.
-
-## Cum rulezi experimentele
-
-```bash
-# Antrenare per strategie
-python starter_pack/train_one_span.py \
-    --data_path data/rehydrated/train_rehydrated.jsonl \
-    --output_dir checkpoints/exp01a_full \
-    --marker_types Action Actor Effect Evidence Victim \
-    --unfreeze_last_n 6 \
-    --num_epochs 10 \
-    --seed 42
-
-# Inferență pe validation
-python starter_pack/infer_one_span.py \
-    --model_dir checkpoints/exp01a_full \
-    --test_file data/rehydrated/val_split.jsonl \
-    --submission_file checkpoints/exp01a_full/val_submission.jsonl \
-    --marker_types Action Actor Effect Evidence Victim
-
-# Evaluare oficială
-python starter_pack/eval_token.py \
-    --ground_truth_file data/rehydrated/val_split.jsonl \
-    --prediction_file checkpoints/exp01a_full/val_submission.jsonl \
-    --scores_output_file checkpoints/exp01a_full/scores_val.json
-
-# Analiza calitativă
-python starter_pack/qualitative_analysis.py \
-    --gold_file data/rehydrated/val_split.jsonl \
-    --pred_dir checkpoints \
-    --output_dir results/qualitative \
-    --experiments exp01a_full exp01b_unfreeze4 exp01c_linear
-
-# Generare grafice pentru lucrare
-python starter_pack/generate_figures.py \
-    --checkpoints_dir checkpoints \
-    --results_dir results \
-    --output_dir results/figures
+├── README.md                  acest fișier
+├── data/
+│   └── README.md              cum se obțin datele (textul nu este redistribuit)
+├── starter\_pack/              cod (modificat din pachetul oficial SemEval)
+│   ├── train\_one\_span.py          antrenare DistilBERT (one-vs-rest)
+│   ├── infer\_one\_span.py          inferență DistilBERT
+│   ├── train\_one\_span\_lora.py     antrenare Qwen2.5 + LoRA
+│   ├── infer\_one\_span\_lora.py     inferență Qwen2.5 (+ LoRA sau doar cap)
+│   ├── eval\_token.py              evaluator oficial (F1 token, IoU ≥ 0,5)
+│   ├── qualitative\_analysis.py    analiza erorilor (TP / FP / FN)
+│   ├── generate\_figures.py        generarea figurilor
+│   ├── rehydrate\_data.py          rehidratare date (script oficial)
+│   └── requirements.txt           dependențe
+└── results/                   scoruri, sinteze și figuri
 ```
 
-## Reproducerea rezultatelor
+## Metodologie de evaluare
 
-Toate experimentele folosesc seed fix (42 by default, cu multi-seed pe 123 și 2024
-pentru verificare statistică). Pentru reproducere completă, vezi `data/README.md`
-pentru obținerea datasetului oficial PsyCoMark.
+Toate experimentele folosesc schema one-vs-rest: câte un model binar independent per categorie (cinci capuri de clasificare separate), aleasă pentru că adnotările conțin *span*-uri suprapuse, pe care un singur clasificator multi-class nu le poate modela.
+
+Variabilitatea rezultatelor este estimată prin **rulări repetate fără *seed* fixat:** fiecare rulare pornește de la o inițializare și o partiționare aleatoare proprie, iar partiția de validare efectiv folosită este salvată pe disc (`val\_split\_used.jsonl`), astfel încât evaluarea se face întotdeauna pe exact setul ținut deoparte la antrenare. Se raportează media și deviația standard pe cinci rulări.
+
+## Date
+
+Textul comentariilor nu este redistribuit în acest depozit, conform termenilor datasetului oficial PsyCoMark și ai platformei Reddit. Se distribuie doar metadate (id-uri Reddit), iar textul se recuperează local prin rehidratare. Pașii compleți sunt în [`data/README.md`](data/README.md). Pe scurt:
+
+1. Acceptarea termenilor datasetului pe platforma oficială a competiției.
+2. Descărcarea fișierelor cu metadate (`train\_redacted.jsonl`).
+3. Rehidratarea cu scriptul oficial, care necesită credențiale Reddit API:
+
+```bash
+   python starter\_pack/rehydrate\_data.py
+   ```
+
+   Rezultatul este `data/rehydrated/train\_rehydrated.jsonl`.
+
+   ## Instalare
+
+   ```bash
+pip install -r starter\_pack/requirements.txt
+```
+
+   ## Rulare
+
+   ### Etapa 1 — DistilBERT (*fine-tuning* complet)
+
+   ```bash
+# Antrenare (one-vs-rest, cele cinci categorii)
+python starter\_pack/train\_one\_span.py \\
+    --data\_path data/rehydrated/train\_rehydrated.jsonl \\
+    --output\_dir runs/distilbert\_full \\
+    --marker\_types Action Actor Effect Evidence Victim \\
+    --unfreeze\_last\_n 6 --num\_epochs 10
+
+# Inferență pe partiția de validare salvată de antrenare
+python starter\_pack/infer\_one\_span.py \\
+    --model\_dir runs/distilbert\_full \\
+    --test\_file runs/distilbert\_full/val\_split\_used.jsonl \\
+    --submission\_file runs/distilbert\_full/val\_submission.jsonl \\
+    --marker\_types Action Actor Effect Evidence Victim
+
+# Evaluare oficială (F1 token, IoU ≥ 0,5)
+python starter\_pack/eval\_token.py \\
+    --ground\_truth\_file runs/distilbert\_full/val\_split\_used.jsonl \\
+    --prediction\_file runs/distilbert\_full/val\_submission.jsonl \\
+    --scores\_output\_file runs/distilbert\_full/scores\_val.json
+```
+
+   Strategiile de *fine-tuning* se obțin variind `--unfreeze\_last\_n`: `0` = *linear probing* (doar capul), `4` = *unfreeze* parțial, `6` = *fine-tuning* complet.
+
+   ### Etapa 2 — Qwen2.5-0.5B + LoRA
+
+   ```bash
+python starter\_pack/train\_one\_span\_lora.py \\
+    --data\_path data/rehydrated/train\_rehydrated.jsonl \\
+    --output\_dir runs/qwen\_lora \\
+    --marker\_types Action Actor Effect Evidence Victim \\
+    --lora\_r 32 --lora\_alpha 64 --num\_epochs 12 --class\_weight\_positive 3.0
+
+python starter\_pack/infer\_one\_span\_lora.py \\
+    --model\_dir runs/qwen\_lora \\
+    --test\_file runs/qwen\_lora/val\_split\_used.jsonl \\
+    --submission\_file runs/qwen\_lora/val\_submission.jsonl \\
+    --marker\_types Action Actor Effect Evidence Victim
+
+python starter\_pack/eval\_token.py \\
+    --ground\_truth\_file runs/qwen\_lora/val\_split\_used.jsonl \\
+    --prediction\_file runs/qwen\_lora/val\_submission.jsonl \\
+    --scores\_output\_file runs/qwen\_lora/scores\_val.json
+```
+
+   ### Estimarea variabilității (rulări repetate)
+
+   Pentru media și deviația standard raportate, comanda de antrenare se repetă de cinci ori, fără *seed*. Fiecare rulare salvează propria partiție de validare; scorurile per rulare se agregă la final.
+
+   ## Ablații
+
+   ```bash
+# Fără ponderarea clasei pozitive (verifică utilitatea ponderii 3,0)
+python starter\_pack/train\_one\_span\_lora.py ... --class\_weight\_positive 1.0
+
+# Fără LoRA: model de bază înghețat, se antrenează doar capul de clasificare
+python starter\_pack/train\_one\_span\_lora.py ... --no\_lora
+
+# Variația rangului LoRA
+python starter\_pack/train\_one\_span\_lora.py ... --lora\_r 4
+python starter\_pack/train\_one\_span\_lora.py ... --lora\_r 64
+```
+
+   ## Licență și atribuire
+
+   Codul din `starter\_pack/` este adaptat din pachetul oficial de start al competiției SemEval 2026 Task 10. Datasetul PsyCoMark aparține organizatorilor competiției și este supus termenilor proprii de utilizare; textul comentariilor nu este redistribuit aici.
 
