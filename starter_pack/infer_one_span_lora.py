@@ -57,8 +57,13 @@ def load_model_for_marker(base_model_name, lora_adapter_dir, device):
     )
 
     # Aplica adapter LoRA peste
-    model = PeftModel.from_pretrained(base_model, lora_adapter_dir)
-    model = model.merge_and_unload()  # Combina adapter cu base model pentru inferenta rapida
+    # Detecteaza daca dir-ul contine un adaptor LoRA sau un model complet (fara LoRA)
+    if os.path.exists(os.path.join(lora_adapter_dir, "adapter_config.json")):
+        model = PeftModel.from_pretrained(base_model, lora_adapter_dir)
+        model = model.merge_and_unload()
+    else:
+        model = AutoModelForTokenClassification.from_pretrained(
+            lora_adapter_dir, num_labels=2, trust_remote_code=True, torch_dtype=torch.float32)
     model = model.to(device)
     model.eval()
 

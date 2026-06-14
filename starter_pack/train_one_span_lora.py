@@ -86,6 +86,8 @@ def parse_args():
     p.add_argument("--lora_r", type=int, default=16, help="rang LoRA")
     p.add_argument("--lora_alpha", type=int, default=32, help="scaling alpha LoRA")
     p.add_argument("--lora_dropout", type=float, default=0.1)
+    p.add_argument("--no_lora", action="store_true",
+                   help="Daca e setat, NU aplica LoRA: ingheata modelul de baza, antreneaza doar capul de clasificare.")
     p.add_argument("--target_modules", nargs="+",
                    default=["q_proj", "v_proj"],
                    help="module pe care se aplica LoRA")
@@ -93,8 +95,10 @@ def parse_args():
     p.add_argument("--learning_rate", type=float, default=2e-4)
     p.add_argument("--batch_size", type=int, default=8)
     p.add_argument("--max_length", type=int, default=128)
-    p.add_argument("--seed", type=int, default=42)
     p.add_argument("--val_ratio", type=float, default=0.2)
+    p.add_argument("--train_file", type=str, default=None,
+                   help="Daca e dat, se foloseste acest split in loc de split-ul intern.")
+    p.add_argument("--val_file", type=str, default=None)
     p.add_argument("--patience", type=int, default=3)
     p.add_argument("--warmup_ratio", type=float, default=0.1)
     p.add_argument("--weight_decay", type=float, default=0.01)
@@ -110,18 +114,6 @@ def parse_args():
 
 
 # ---------------------------------------------------------------------------
-# Reproducibility
-# ---------------------------------------------------------------------------
-
-def set_seed(seed):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(seed)
-
-
-# ---------------------------------------------------------------------------
 # Data loading and split
 # ---------------------------------------------------------------------------
 
@@ -133,8 +125,8 @@ def load_data(path):
     return data
 
 
-def split_train_val(data, val_ratio, seed):
-    rng = random.Random(seed)
+def split_train_val(data, val_ratio):
+    rng = random.Random()
     indices = list(range(len(data)))
     rng.shuffle(indices)
     n_val = int(len(data) * val_ratio)
@@ -242,7 +234,7 @@ def compute_metrics(eval_pred):
 # ---------------------------------------------------------------------------
 
 def load_and_configure_model(model_name, lora_r, lora_alpha, lora_dropout,
-                              target_modules, num_labels=2):
+                              target_modules, num_labels=2, no_lora=False):
     """
     Incarca modelul de baza si aplica LoRA.
 
@@ -261,15 +253,29 @@ def load_and_configure_model(model_name, lora_r, lora_alpha, lora_dropout,
     )
 
     # Aplica LoRA
-    lora_config = LoraConfig(
-        r=lora_r,
-        lora_alpha=lora_alpha,
-        target_modules=target_modules,
-        lora_dropout=lora_dropout,
-        bias="none",
-        task_type=TaskType.TOKEN_CLS,
-    )
-    model = get_peft_model(model, lora_config)
+    if no_lora:
+        # Fara LoRA: ingheata tot modelul de baza, antreneaza doar capul de clasificare
+        for param in model.parameters():
+            param.requires_grad = False
+        for name, param in model.named_parameters():
+            if "score" in name or "classifier" in name:
+                param.requires_grad = True
+    else:
+        # Aplica LoRA
+        lora_config = LoraConfig(
+            r=lora_r,
+            lora_alpha=lora_alpha,
+            target_modules=target_modules,
+            lora_dropout=lora_dropout,
+            bias="none",
+            task_type=TaskType.TOKEN_CLS,
+        )
+        model = get_peft_model(model, lora_config)
+        for name, param in model.named_parameters():
+            if "score" in name or "classifier" in name:
+                param.requires_grad = True
+
+    return model, tokenizer
 
     # Verificam capul de classification e antrenabil
     # peft uneori il ingheata; il dezghetam explicit
@@ -286,7 +292,8 @@ def load_and_configure_model(model_name, lora_r, lora_alpha, lora_dropout,
 
 def main():
     args = parse_args()
-    set_seed(args.seed)
+    run_entropy = int.from_bytes(os.urandom(4), "little")
+    os.makedirs(args.output_dir, exist_ok=True)
 
     print(f"\n{'=' * 70}")
     print(f"LoRA fine-tuning pe {args.model_name}")
@@ -298,9 +305,21 @@ def main():
     print(f"Total samples: {len(all_data)}")
 
     # Split train/val reproductibil
-    train_data, val_data = split_train_val(all_data, args.val_ratio, args.seed)
-    print(f"Train: {len(train_data)}, Val: {len(val_data)} (seed={args.seed})")
-
+    if args.train_file and args.val_file:
+        # Split gata facut (toti markerii rularii impart aceeasi partitie)
+        train_data = load_data(args.train_file)
+        val_data = load_data(args.val_file)
+        print(f"  Split primit din afara: train={len(train_data)} val={len(val_data)}")
+    else:
+        # Split intern, fara seed (comportamentul de pana acum)
+        all_data = load_data(args.data_path)
+        train_data, val_data = split_train_val(all_data, args.val_ratio)
+        val_split_path = os.path.join(args.output_dir, "val_split_used.jsonl")
+        with open(val_split_path, "w") as f:
+            for ex in val_data:
+                f.write(json.dumps(ex) + "\n")
+        print(f"  Val split salvat: {val_split_path}")
+        print(f"Train: {len(train_data)}, Val: {len(val_data)}")
     # Antrenare per marker
     all_metrics = {}
 
@@ -334,6 +353,7 @@ def main():
             args.lora_alpha,
             args.lora_dropout,
             args.target_modules,
+            no_lora=args.no_lora,
         )
 
         # Afiseaza parametri antrenabili
@@ -379,7 +399,7 @@ def main():
             load_best_model_at_end=True,
             metric_for_best_model="f1",
             greater_is_better=True,
-            seed=args.seed,
+            seed=run_entropy,
             report_to="none",
             fp16=torch.cuda.is_available(),
         )

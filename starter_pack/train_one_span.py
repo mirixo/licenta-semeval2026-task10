@@ -22,14 +22,6 @@ from transformers import (
     EarlyStoppingCallback,
 )
 
-
-def set_seed(seed: int) -> None:
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    torch.cuda.manual_seed_all(seed)
-
-
 def load_data(file_path: str) -> list:
     data = []
     with open(file_path, "r") as f:
@@ -41,8 +33,8 @@ def load_data(file_path: str) -> list:
     return data
 
 
-def split_train_val(data: list, val_ratio: float, seed: int):
-    rng = random.Random(seed)
+def split_train_val(data: list, val_ratio: float):
+    rng = random.Random()
     indices = list(range(len(data)))
     rng.shuffle(indices)
     n_val = int(len(data) * val_ratio)
@@ -197,19 +189,33 @@ def parse_args():
     p.add_argument("--unfreeze_last_n", type=int, default=6,
                    help="Cate layere transformer (din 6) sunt antrenate. 0=linear probe, 6=full.")
     p.add_argument("--val_ratio", type=float, default=0.2)
-    p.add_argument("--seed", type=int, default=42)
+    p.add_argument("--train_file", type=str, default=None,
+                   help="Daca e dat, se foloseste acest split in loc de split-ul intern.")
+    p.add_argument("--val_file", type=str, default=None)
     return p.parse_args()
 
 
 def main():
     args = parse_args()
-    set_seed(args.seed)
+    run_entropy = int.from_bytes(os.urandom(4), "little")
     os.makedirs(args.output_dir, exist_ok=True)
 
     print(f"Args: {vars(args)}")
     print(f"\nLoading data from {args.data_path}...")
-    all_data = load_data(args.data_path)
-    train_data, val_data = split_train_val(all_data, args.val_ratio, args.seed)
+    if args.train_file and args.val_file:
+        # Split gata facut (toti markerii rularii impart aceeasi partitie)
+        train_data = load_data(args.train_file)
+        val_data = load_data(args.val_file)
+        print(f"  Split primit din afara: train={len(train_data)} val={len(val_data)}")
+    else:
+        # Split intern, fara seed (comportamentul de pana acum)
+        all_data = load_data(args.data_path)
+        train_data, val_data = split_train_val(all_data, args.val_ratio)
+        val_split_path = os.path.join(args.output_dir, "val_split_used.jsonl")
+        with open(val_split_path, "w") as f:
+            for ex in val_data:
+                f.write(json.dumps(ex) + "\n")
+        print(f"  Val split salvat: {val_split_path}")
     print(f"  Train: {len(train_data)} samples")
     print(f"  Val:   {len(val_data)} samples")
 
@@ -268,7 +274,7 @@ def main():
             greater_is_better=True,
             logging_steps=50,
             report_to="none",
-            seed=args.seed,
+            seed=run_entropy,
         )
 
         data_collator = DataCollatorForTokenClassification(tokenizer)
